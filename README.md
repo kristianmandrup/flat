@@ -110,6 +110,7 @@ Use a custom `function` to unflatten the keyname.  It  returns an array of key n
 When enabled, both `flat` and `unflatten` will preserve arrays and their
 contents. This is disabled by default.
 
+
 ``` javascript
 var flatten = require('flat')
 
@@ -197,6 +198,7 @@ flatten({
 //   'key3.a': { b: { c: 2 } }
 // }
 ```
+<<<<<<< HEAD
 
 ### filter
 
@@ -220,4 +222,16 @@ flatten({
 //   },
 //   'key2.keyB': 'valueII'
 // }
+=======
+### shallow
+
+When enabled, nested flattened objects are preserved when unflattening.
+
+```
+unflatten({ "foo.bar": { "fiz.fuz": "hello" }})
+// { foo: { bar: { "fiz": { "fuz": "hello" } } }
+
+unflatten({ "foo.bar": { "fiz.fuz": "hello" }}, { shallow: true })
+// { foo: { bar: { "fiz.fuz": "hello" } }
+>>>>>>> db6542a554fbee04fb041bf504b4f1787af6a1db
 ```
