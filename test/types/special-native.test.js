@@ -1,7 +1,6 @@
-var assert = require('assert')
-  , flat = require('../../index')
-  , flatten = flat.flatten
-  , unflatten = flat.unflatten
+const assert = require('assert')
+const { flatten, unflatten } = require('../../index')
+const flat = flatten
 
 if (typeof Buffer !== 'undefined') test('Buffer', function() {
   assert.deepEqual(unflatten({

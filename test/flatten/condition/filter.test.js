@@ -1,7 +1,6 @@
-var assert = require('assert')
-  , flat = require('../../../index')
-  , flatten = flat.flatten
-  , unflatten = flat.unflatten
+const assert = require('assert')
+const { flatten, unflatten } = require('../../../index')
+const flat = flatten
 
 suite('.filter', function() {
   var everything = function() { return false }
@@ -51,3 +50,4 @@ suite('.filter', function() {
       'hello.array.1': 'values'
     })
   })
+})
