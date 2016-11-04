@@ -117,26 +117,28 @@ suite('Flatten', function() {
       }), {
         'HELLO.WORLD.AGAIN': 'good morning'
       })
-    }) 
+    })
 
     test('To lower case', function() {
-      assert.deepEqual(flatten({
-        HELLO: {
-          WORLD: {
-            AGAIN: 'good morning'
+      assert.deepEqual(
+        flatten({
+          HELLO: {
+            WORLD: {
+              AGAIN: 'good morning'
+            }
           }
-        }
-      }, {
-        toLowerCase: true
-      }), {
-        'hello.world.again': 'good morning'
+        }, {
+          toLowerCase: true
+        }),
 
-        keyname: function(prev, key) {
-          return prev ? prev + ':' + key : ':' + key
-        }
-      }), {
-        ':hello:world:again': 'good morning'
-      })
+        {
+          'hello.world.again': 'good morning',
+
+          keyname: function(prev, key) {
+            return prev ? prev + ':' + key : ':' + key
+          }
+        })
+    })
   })
 
   test('Empty Objects', function() {
