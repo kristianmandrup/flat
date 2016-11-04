@@ -173,12 +173,20 @@ suite('Flatten', function() {
         world: {
           again: 'good morning'
         }
+      },
+      lorem: {
+        ipsum: {
+          dolor: 'good evening'
+        }
       }
     }, {
       maxDepth: 2
     }), {
       'hello.world': {
         again: 'good morning'
+      },
+      'lorem.ipsum': {
+        dolor: 'good evening'
       }
     })
   })
