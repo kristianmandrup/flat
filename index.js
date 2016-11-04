@@ -11,6 +11,9 @@ function flatten(target, opts) {
   var lowerCase = opts.toLowerCase || false
   var upperCase = opts.toUpperCase || false
   var maxDepth = opts.maxDepth
+
+  var filter = opts.filter || function() { return true }
+  var currentDepth = 1
   var output = {}
 
   function step(object, prev, currentDepth) {
@@ -34,11 +37,16 @@ function flatten(target, opts) {
         return step(value, newKey, currentDepth + 1)
       }
 
+
       if (lowerCase) {
         newKey = newKey.toLowerCase()
       }
       if (upperCase) {
         newKey = newKey.toUpperCase()
+
+      if (!isarray && !isbuffer && isobject && Object.keys(value).length && currentDepth < maxDepth && filter(value)) {
+        ++currentDepth
+        return step(value, newKey)
       }
       output[newKey] = value
     })
