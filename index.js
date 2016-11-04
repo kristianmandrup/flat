@@ -52,6 +52,7 @@ function flatten(target, opts) {
       }
       if (upperCase) {
         newKey = newKey.toUpperCase()
+      }
 
       if (!isarray && !isbuffer && isobject && Object.keys(value).length && currentDepth < maxDepth && filter(value)) {
         ++currentDepth
