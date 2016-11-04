@@ -66,6 +66,7 @@ unflatten({
 
 Use a custom delimiter for (un)flattening your objects, instead of `.`.
 
+<<<<<<< HEAD
 ### toUpperCase
 
 Use a toUpperCase option for flattening your objects and upper case object keys at the same time.
@@ -74,6 +75,35 @@ This can be handy when working with constants, i.e. `API_KEY: 'some key'`
 ### toLowerCase
 
 Use a toLowerCase option for flattening your objects and lower case object keys at the same time.
+=======
+### keyname
+
+Use a custom `function` to flatten the keyname.  By default, the `delimiter` is inserted between `prev` and `next`
+
+Here's an example that uses a colon (':') to prefix and delimit the keyname
+
+````javascript
+var o = {
+  hello: {
+    world: {
+      again: 'good morning'
+}}}
+
+flatten(o, { keyname: function(prev, next) {
+  return prev 
+    ? prev + ':' + next 
+    : ':' + next
+}})
+      
+// {
+//  ':hello:world:again': 'good morning'
+// }
+````
+
+### keynames
+
+Use a custom `function` to unflatten the keyname.  It  returns an array of key names.  This is the inverse of [keyname](#keyname). By default, the `delimiter` is used to [split](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split) the name.
+>>>>>>> ca6f4d27ec49830e9a5bef57b61b88e6bb767b9b
 
 ### safe
 

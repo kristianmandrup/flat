@@ -104,31 +104,39 @@ suite('Flatten', function() {
   })
 
   test('To upper case', function() {
-    assert.deepEqual(flatten({
-      hello: {
-        world: {
-          again: 'good morning'
-        }
-      }
-    }, {
-      toUpperCase: true
-    }), {
-      'HELLO.WORLD.AGAIN': 'good morning'
-    })
-  }) 
 
-  test('To lower case', function() {
-    assert.deepEqual(flatten({
-      HELLO: {
-        WORLD: {
-          AGAIN: 'good morning'
+    test('Custom keyname', function() {
+      assert.deepEqual(flatten({
+        hello: {
+          world: {
+            again: 'good morning'
+          }
         }
-      }
-    }, {
-      toLowerCase: true
-    }), {
-      'hello.world.again': 'good morning'
-    })
+      }, {
+        toUpperCase: true
+      }), {
+        'HELLO.WORLD.AGAIN': 'good morning'
+      })
+    }) 
+
+    test('To lower case', function() {
+      assert.deepEqual(flatten({
+        HELLO: {
+          WORLD: {
+            AGAIN: 'good morning'
+          }
+        }
+      }, {
+        toLowerCase: true
+      }), {
+        'hello.world.again': 'good morning'
+
+        keyname: function(prev, key) {
+          return prev ? prev + ':' + key : ':' + key
+        }
+      }), {
+        ':hello:world:again': 'good morning'
+      })
   })
 
   test('Empty Objects', function() {
@@ -248,6 +256,22 @@ suite('Unflatten', function() {
       'hello world again': 'good morning'
     }, {
       delimiter: ' '
+    }))
+  })
+
+  test('Custom keynames', function() {
+    assert.deepEqual({
+      hello: {
+        world: {
+          again: 'good morning'
+        }
+      }
+    }, unflatten({
+      ':hello:world:again': 'good morning'
+    }, {
+      keynames: function(key) {
+        return key.substr(1).split(':')
+      }
     }))
   })
 
