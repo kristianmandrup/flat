@@ -1,12 +1,22 @@
-# flat [![Build Status](https://secure.travis-ci.org/hughsk/flat.png?branch=master)](http://travis-ci.org/hughsk/flat)
+# flat2
 
-Take a nested Javascript object and flatten it, or unflatten an object with
-delimited keys.
+Take a nested Javascript object and flatten it, or unflatten an object with delimited keys.
+
+## Updated flat
+
+This library is a largely rewritten version of [flat](https://www.npmjs.com/package/flat).
+
+`flat2` has been designed using ES6 classes to make for a more composable, flexible and more maintainable library.
+It should now be much easier to test, debug and extend.
+
+## Status
+
+Currently basic `flatten` function works. `unflatten` needs some *LUV*
 
 ## Installation
 
 ``` bash
-$ npm install flat
+$ npm install kristianmandrup/flat2#dev
 ```
 
 ## Methods
@@ -17,7 +27,7 @@ Flattens the object - it'll return an object one level deep, regardless of how
 nested the original object was:
 
 ``` javascript
-var flatten = require('flat')
+const { flatten, unflatten } = require('flat2')
 
 flatten({
     key1: {
@@ -41,7 +51,7 @@ flatten({
 Flattening is reversible too, you can call `flatten.unflatten()` on an object:
 
 ``` javascript
-var unflatten = require('flat').unflatten
+const { unflatten } = require('flat')
 
 unflatten({
     'three.levels.deep': 42,
@@ -66,7 +76,6 @@ unflatten({
 
 Use a custom delimiter for (un)flattening your objects, instead of `.`.
 
-<<<<<<< HEAD
 ### toUpperCase
 
 Use a toUpperCase option for flattening your objects and upper case object keys at the same time.
@@ -75,7 +84,11 @@ This can be handy when working with constants, i.e. `API_KEY: 'some key'`
 ### toLowerCase
 
 Use a toLowerCase option for flattening your objects and lower case object keys at the same time.
-=======
+
+### transformKey
+
+Use a custom function to transform object keys 
+
 ### keyname
 
 Use a custom `function` to flatten the keyname.  By default, the `delimiter` is inserted between `prev` and `next`
@@ -103,7 +116,6 @@ flatten(o, { keyname: function(prev, next) {
 ### keynames
 
 Use a custom `function` to unflatten the keyname.  It  returns an array of key names.  This is the inverse of [keyname](#keyname). By default, the `delimiter` is used to [split](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split) the name.
->>>>>>> ca6f4d27ec49830e9a5bef57b61b88e6bb767b9b
 
 ### safe
 
@@ -198,7 +210,6 @@ flatten({
 //   'key3.a': { b: { c: 2 } }
 // }
 ```
-<<<<<<< HEAD
 
 ### filter
 
@@ -222,7 +233,7 @@ flatten({
 //   },
 //   'key2.keyB': 'valueII'
 // }
-=======
+
 ### shallow
 
 When enabled, nested flattened objects are preserved when unflattening.
@@ -233,5 +244,5 @@ unflatten({ "foo.bar": { "fiz.fuz": "hello" }})
 
 unflatten({ "foo.bar": { "fiz.fuz": "hello" }}, { shallow: true })
 // { foo: { bar: { "fiz.fuz": "hello" } }
->>>>>>> db6542a554fbee04fb041bf504b4f1787af6a1db
+
 ```
