@@ -8,7 +8,7 @@ suite('Flatten', function() {
       hello: {
         world: 'good morning'
       }
-    }), {
+    }, {logging: true}), {
       'hello.world': 'good morning'
     })
   })
