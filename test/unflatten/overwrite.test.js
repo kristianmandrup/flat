@@ -1,5 +1,5 @@
 const assert = require('assert')
-const { flatten, unflatten } = require('../../index')
+const { flatten, unflatten } = require('../flat')
 const flat = flatten
 
 suite('Overwrite + non-object values in key positions', function() {

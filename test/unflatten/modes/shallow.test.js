@@ -1,5 +1,5 @@
 const assert = require('assert')
-const { flatten, unflatten } = require('../../../index')
+const { flatten, unflatten } = require('../../flat')
 
 suite('.shallow', function() {
   test('Should leave nested objects untouched', function() {
@@ -43,3 +43,4 @@ suite('.shallow', function() {
       flatten(unflatten(object, { shallow: true }), { maxDepth: 1 })
     )
   });
+});

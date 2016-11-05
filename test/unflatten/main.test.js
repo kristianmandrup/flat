@@ -1,6 +1,5 @@
 const assert = require('assert')
-const { flatten, unflatten } = require('../../index')
-const flat = flatten
+const { flatten, unflatten } = require('../flat')
 
 suite('Unflatten', function() {
   test('Nested once', function() {
