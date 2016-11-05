@@ -3,7 +3,7 @@
   "version": "2.0.1",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha test/unflatten/**/*.test.js -u tdd --reporter spec"
+    "test": "mocha test/unflatten/**/main.test.js -u tdd --reporter spec"
   },
   "license": "BSD-3-Clause",
   "description": "Take a nested Javascript object and flatten it, or unflatten an object with delimited keys",

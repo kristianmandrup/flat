@@ -3,9 +3,11 @@ const { flatten, unflatten } = require('../../flat')
 
 suite('.shallow', function() {
   test('Should leave nested objects untouched', function() {
-    assert.deepEqual(unflatten({
+    let unflatObj = unflatten({
       'hello.world': { 'foo.fiz': 'bar' }
-    }, { shallow: true }), {
+    }, { shallow: true })
+
+    assert.deepEqual(unflatObj, {
       'hello': {
         'world': {
           'foo.fiz': 'bar'
