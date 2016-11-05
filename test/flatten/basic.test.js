@@ -4,26 +4,32 @@ const flat = flatten
 
 suite('Flatten', function() {
   test('Nested once', function() {
-    assert.deepEqual(flatten({
+    let result = flatten({
       hello: {
         world: 'good morning'
       }
-    }, {logging: true}), {
+    }, {logging: true})
+
+    console.log('RESULT', result)
+
+    assert.deepEqual(result, {
       'hello.world': 'good morning'
     })
   })
 
-  // test('Nested twice', function() {
-  //   assert.deepEqual(flatten({
-  //     hello: {
-  //       world: {
-  //         again: 'good morning'
-  //       }
-  //     }
-  //   }), {
-  //     'hello.world.again': 'good morning'
-  //   })
-  // })
+  test('Nested twice', function() {
+    let result = flatten({
+      hello: {
+        world: {
+          again: 'good morning'
+        }
+      }
+    }, {logging: true})
+
+    assert.deepEqual(result, {
+      'hello.world.again': 'good morning'
+    })
+  })
 
   // test('Multiple Keys', function() {
   //   assert.deepEqual(flatten({
