@@ -10,8 +10,6 @@ suite('Flatten', function() {
       }
     }, {logging: true})
 
-    console.log('RESULT', result)
-
     assert.deepEqual(result, {
       'hello.world': 'good morning'
     })
@@ -31,25 +29,29 @@ suite('Flatten', function() {
     })
   })
 
-  // test('Multiple Keys', function() {
-  //   assert.deepEqual(flatten({
-  //     hello: {
-  //       lorem: {
-  //         ipsum: 'again',
-  //         dolor: 'sit'
-  //       }
-  //     },
-  //     world: {
-  //       lorem: {
-  //         ipsum: 'again',
-  //         dolor: 'sit'
-  //       }
-  //     }
-  //   }), {
-  //     'hello.lorem.ipsum': 'again',
-  //     'hello.lorem.dolor': 'sit',
-  //     'world.lorem.ipsum': 'again',
-  //     'world.lorem.dolor': 'sit'
-  //   })
-  // })
+  test('Multiple Keys', function() {
+    let result = flatten({
+      hello: {
+        lorem: {
+          ipsum: 'again',
+          dolor: 'sit'
+        }
+      },
+      world: {
+        lorem: {
+          ipsum: 'again',
+          dolor: 'sit'
+        }
+      }
+    })
+
+    // console.log('RESULT', result)
+
+    assert.deepEqual(result, {
+      'hello.lorem.ipsum': 'again',
+      'hello.lorem.dolor': 'sit',
+      'world.lorem.ipsum': 'again',
+      'world.lorem.dolor': 'sit'
+    })
+  })
 })
