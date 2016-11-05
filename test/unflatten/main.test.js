@@ -11,11 +11,11 @@ suite('Unflatten', function() {
 
     log('result', result)
 
-    assert.deepEqual({
+    assert.deepEqual(result, {
       hello: {
         world: 'good morning'
       }
-    }, result)
+    })
   })
 
   // test('Nested twice', function() {
