@@ -48,7 +48,9 @@ suite('Flatten', function () {
             }
           }
         }, {
-          toLowerCase: true
+          toLowerCase: true,
+          logging: true,
+          logOnly: ['Flattener']
         }),
 
         {
@@ -110,8 +112,6 @@ suite('Flatten', function () {
           nested: uintArr
         }
       }
-    }, {
-      logging: true
     })
 
     const expectedWArray = {

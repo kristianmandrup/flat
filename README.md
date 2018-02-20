@@ -353,6 +353,27 @@ A stepper steps through all keys on one depth level.
 
 The `onKey` handler of stepper is used to build a stack of visited keys on a particular depth level. It also calls `onKey` for the flattener to allow it to build up its stack.
 
+## Logging
+
+You can pass a boolean `logging` option to enable/disable logging.
+Add a `logOnly` option to limit which "classes" should log. A class is any object that has a `name` property (note: `name` will default to `constructor.name`).
+
+```js
+flatten({
+  HELLO: {
+    WORLD: {
+      AGAIN: 'good morning'
+    }
+  }
+}, {
+  toLowerCase: true,
+  logging: true,
+  logOnly: ['Flattener']
+})
+```
+
+We would welcome a PR with more detailed logging constraints, such as current depth level, keys visited etc.
+
 ## Alternatives
 
 There are a host of alternative solutions you might want to consider...

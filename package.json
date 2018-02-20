@@ -1,6 +1,6 @@
 {
   "name": "flat2",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "main": "lib",
   "scripts": {
     "test": "mocha test/**/*.test.js --recursive -u tdd --reporter spec"

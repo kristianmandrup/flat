@@ -11,7 +11,8 @@ suite('Flatten', function () {
         world: 'good morning'
       }
     }, {
-      logging: true
+      logging: true,
+      logOnly: ['Flattener']
     })
 
     assert.deepEqual(result, {
@@ -27,7 +28,7 @@ suite('Flatten', function () {
         }
       }
     }, {
-      logging: true
+      // logging: true
     })
 
     assert.deepEqual(result, {
