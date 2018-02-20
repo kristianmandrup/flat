@@ -84,16 +84,6 @@ flatten(obj, {
 }
 ```
 
-### transformKeyFn
-
-Use a custom function to transform object keys (as opposed to built in transforms such as lowercase and uppercase). A transform is applied after the key name has been generated.
-
-```js
-flatten(obj, {
-  transformKeyFn: (key) => mySpecialTransform(key)
-}
-```
-
 ### keyType
 
 Use a built in type of key transformation function:
@@ -107,23 +97,37 @@ flatten(obj, {
 }
 ```
 
+## Advanced Configuration options
+
+You can use the following options to further customize how keys are generated
+
+### transformKeyFn
+
+Use a custom function to transform object keys (as opposed to built in transforms such as `toLowerCase` and `toUpperCase`). A transform is applied after the key name has been generated.
+
+```js
+flatten(obj, {
+  transformKeyFn: (key) => mySpecialTransform(key)
+}
+```
+
 ### keyNameFn
 
-Use a custom `function` to flatten the keyname.  By default, the `delimiter` is inserted between `prev` and `next`
+Use a custom `function` to flatten the keyname. By default, the `delimiter` is inserted between `prev` and `next`
 
-Here's an example that uses a colon (`:`) to prefix and delimit the keyname
+Here's an example that uses a colon (`:`) to both prefix and delimit the keyname
 
 ````js
-var o = {
+var obj = {
   hello: {
     world: {
       again: 'good morning'
 }}}
 
-flatten(o, { keyNameFn: function(prev, next) {
+flatten(obj, { keyNameFn: function(prev, next) {
   return prev
-    ? prev + ':' + next
-    : ':' + next
+    ? prev + ':' + next // delimit
+    : ':' + next // prefix
 }})
 
 // {
@@ -141,7 +145,7 @@ const {
   createMySpecialKeyNameFn
 } = './key-functions'
 
-flatten(o, {
+flatten(obj, {
   createKeyNameFn(opts) {
     return opts.special ? createMySpecialKeyNameFn(opts) : myDefaultKeyNameFn
   }
@@ -157,7 +161,7 @@ const {
   myFlatKey,
 } = './key-functions'
 
-flatten(o, {
+flatten(obj, {
   createFlatKeyFn(opts) {
     return function (opts) {
       return {
@@ -186,6 +190,46 @@ It is used by the default `keyNameFn` to generate each keyname as follows
   return (key, prev) => {
     return flatKey.config(key, prev).name
   }
+```
+
+## Internal Flow configuration
+
+In case you want to customize the internal flow logic:
+
+### createStepper
+
+To pass a custom `createStepper` function to override the built-in `createStepper` factory. You can f.ex extend the `Stepper` class with your customisations.
+
+```js
+function createStepper(object, {
+  flattener,
+  prev,
+  currentDepth
+}) {
+  return new MyStepper(object, {
+    flattener,
+    prev,
+    currentDepth
+  })
+}
+
+flatten(obj, {
+  createStepper
+})
+```
+
+### createKeyStepper
+
+To pass a custom `createKeyStepper` function to override the built-in `createKeyStepper` factory. You can f.ex extend the `KeyStepper` class with your customisations.
+
+```js
+function createKeyStepper(key, { stepper, flattener }) {
+  return new MyKeyStepper(key, { stepper, flattener })
+}
+
+flatten(obj, {
+  createKeyStepper
+})
 ```
 
 ### safe
