@@ -1,24 +1,24 @@
 {
-  "name": "flat",
-  "version": "2.0.1",
-  "main": "lib/index.js",
+  "name": "flat2",
+  "version": "1.0.0",
+  "main": "lib",
   "scripts": {
-    "test": "mocha test/unflatten/**/main.test.js -u tdd --reporter spec"
+    "test": "mocha test/**/*.test.js --recursive -u tdd --reporter spec"
   },
   "license": "BSD-3-Clause",
-  "description": "Take a nested Javascript object and flatten it, or unflatten an object with delimited keys",
+  "description": "Flatten a nested Javascript object any way you like. Designed to be highly customisable",
   "devDependencies": {
-    "mocha": "~2.4.5"
+    "mocha": "^5.0.1"
   },
   "directories": {
     "test": "test"
   },
   "dependencies": {
-    "is-buffer": "~1.1.2"
+    "is-buffer": "^2.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/hughsk/flat.git"
+    "url": "git://github.com/kristianmandrup/flat2.git"
   },
   "keywords": [
     "flat",
@@ -29,9 +29,9 @@
     "object",
     "nested"
   ],
-  "author": "Hugh Kennedy <hughskennedy@gmail.com> (http://hughskennedy.com)",
+  "author": "Kristian Mandrup <kmandrup@gmail.com>",
   "bugs": {
-    "url": "https://github.com/hughsk/flat/issues"
+    "url": "https://github.com/kristianmandrup/flat2/issues"
   },
-  "homepage": "https://github.com/hughsk/flat"
+  "homepage": "https://github.com/kristianmandrup/flat2"
 }

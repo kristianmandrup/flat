@@ -1,35 +1,41 @@
 const assert = require('assert')
-const { flatten, unflatten } = require('../../index')
+const {
+  flatten
+} = require('../../index')
 const flat = flatten
 
-suite('Flatten', function() {
-  test('Nested once', function() {
+suite('Flatten', function () {
+  test('Nested once', function () {
     let result = flatten({
       hello: {
         world: 'good morning'
       }
-    }, {logging: true})
+    }, {
+      logging: true
+    })
 
     assert.deepEqual(result, {
       'hello.world': 'good morning'
     })
   })
 
-  test('Nested twice', function() {
+  test('Nested twice', function () {
     let result = flatten({
       hello: {
         world: {
           again: 'good morning'
         }
       }
-    }, {logging: true})
+    }, {
+      logging: true
+    })
 
     assert.deepEqual(result, {
       'hello.world.again': 'good morning'
     })
   })
 
-  test('Multiple Keys', function() {
+  test('Multiple Keys', function () {
     let result = flatten({
       hello: {
         lorem: {
