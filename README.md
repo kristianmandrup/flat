@@ -18,20 +18,19 @@ I welcome a PR to fix this little issue.
 ## Installation
 
 ```bash
-$ npm install flat2
+$ npm install flat2 --save
 ```
 
 ## Methods
 
-### flatten(obj, options)
+### flatten(obj, opts)
 
-Flattens the object - it'll return an object one level deep, regardless of how
-nested the original object was:
+Creates a flattener, flattens the object and returns the result.
 
 ```js
 const { flatten } = require('flat2')
 
-flatten({
+const flatObj = flatten({
     key1: {
         keyA: 'valueI'
     },
@@ -50,9 +49,52 @@ flatten({
 
 By default uses `.` as the delimiter. The key generation can be customised in many ways by passing options.
 
+## Flattener
+
+Instead of using the convenience `flatten` function, you can also option to instantiate a `Flattener` instance for reuse, to flatten multiple objects.
+
+The flattener is *reset* at the start of each flatten operation.
+
+### createFlattener(obj, options)
+
+Returns a `flattener` instance.
+
+```js
+const { createFlattener } = require('flat2')
+
+const flattener = createFlattener(obj1, opts)
+```
+
+Use `flattener.flat(obj)` to flatten objects
+
+```js
+// flatten using initial target
+const flatObj1 = flattener.flat()
+
+// reuse flattener and flatten with new target
+const flatObj2 = flattener.flat(obj2)
+```
+
+You can also import the `Flattener` class and use `new` or extend it to create your own custom `Flattener`
+
+```js
+import {
+  Flattener
+} from 'flat2'
+
+class MyFlattener extends Flattener {
+  // custom overrides/extensions
+}
+
+const flattener = new MyFlattener(obj, opts)
+
+/// use it!
+const flatObj = flattener.flatten()
+```
+
 ## Options
 
-The following are the supported options (second argument to flatten)
+The following are the supported options, ie. second argument to `flatten` function (or `Flattener` constructor)
 
 ### delimiter
 
@@ -63,6 +105,9 @@ flatten(obj, {
   delimiter: ':'
 }
 ```
+
+
+## Transform options
 
 ### toUpperCase
 
@@ -372,7 +417,135 @@ flatten({
 })
 ```
 
-We would welcome a PR with more detailed logging constraints, such as current depth level, keys visited etc.
+Currently you can supply a `logWhen` option that takes an `object` which can be an instance of either:
+
+- `Flattener`
+- `Stepper`
+- `KeyStepper`
+- `FlatKey`
+
+All of these instances should have access to `flattener` where you have access to attributes such as:
+
+- `currentDepth`
+- `lastAncestorKey`
+- `ancestorKeys`
+- `lvKeys` (via current `stepper` attached)
+
+You can use these attributes to further control when to log.
+
+See `TODO.md` for our `Logger` plans.
+
+### logger option
+
+You can pass your own custom logger in the new `logger` option.
+
+The custom logger can implement one or more of the following:
+
+- `log(...args)`
+- `objLog(...args)`
+
+The default `Logger` methods:
+
+```js
+log(...args) {
+  this.shouldLog && logInfo(this.name, ...args)
+}
+
+objLog(...args) {
+  this.shouldLog && logObj(this.name, ...args)
+}
+```
+
+Your custom `logger` can be an instance of your custom logger class that extends `Logger` (also exported for convenience)
+
+Example:
+
+```js
+import {
+  Logger,
+  // ...
+} from 'flat2`
+
+class MyLogger extends Logger {
+  constructor(flattener, opts) {
+    super(opts)
+    this.flattener = flattener
+  }
+
+  get shouldLog() {
+    // custom conditions
+  }
+}
+
+const flattener = createFlattener(obj, opts)
+
+const loggingOpts = {
+  logging: true,
+  // ... custom opts ?
+}
+
+const logger = new MyLogger(flattener, loggingOpts)
+
+flattener.logger = logger
+
+// now ready to use flattener with new logger!
+```
+
+### TODO: Improved logger and composition
+
+We would welcome a PR with more detailed logging constraints, such as current depth level, keys visited etc. and using composition instead of deep inheritance
+
+## Publish/Subscribe
+
+It might sometimes be useful to have a way to post generate the output values after the fact using the information available at the time of generation for each flat key.
+
+This can f.ex be useful for mapping values (pointers) from the nested to the flat structure.
+
+You can now pass a `subscribeValue` callback, which can be called after the fact by the flattener.
+
+```js
+import {
+  leaf,
+  // ... more refs imported
+} from 'flat2'
+
+function subscribeValue(newKey, newValue, {
+  target,
+  ancestorKeys
+})
+  leaf(target, ancestorKeys.join('.'), newValue)
+}
+```
+
+The function [leaf](https://stackoverflow.com/a/46818701) is also included and exported.
+
+```js
+function leaf(obj, path, value) {
+  const pList = path.split('.');
+  const key = pList.pop();
+  const pointer = pList.reduce((accumulator, currentValue) => {
+    if (accumulator[currentValue] === undefined) accumulator[currentValue] = {};
+    return accumulator[currentValue];
+  }, obj);
+  pointer[key] = value;
+  return obj;
+}
+```
+
+This way you can map the deeply nested leaf values of a target object to point to leaf values in an obj with the flat key structure.
+
+```js
+// assuming flatStruct has structure mirroring object of returned by flatten
+const styles = createStyleSheet(flatObj)
+const nestedStyles = {}
+flattener.publishObj(styles, target)
+```
+
+Now `nestedStyles.card.container` will point to `styles.cardContainer` and so on ;)
+
+Note: You can also publish key/value pair individually using `flattener.publish(key, value, target)`
+
+See also: [Safely accessing deeply nested values](https://medium.com/javascript-inside/safely-accessing-deeply-nested-values-in-javascript-99bf72a0855a)
 
 ## Alternatives
 
