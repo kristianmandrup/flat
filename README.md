@@ -232,6 +232,29 @@ flatten(obj, {
 })
 ```
 
+## Customized output
+
+### transformValue
+
+Pass a `transformValue` function as option to fine-tune if/how leaf values are transformed. By default the value is returned, but you have access to loads of information to fine-tune if necessary.
+
+```js
+function transformValue(value, {
+  target,
+  key,
+  newKey,
+  prevKey,
+  ancestorKeys,
+  lvKeys
+}) {
+  return value
+}
+```
+
+## Modes
+
+You can enable `safe` mode to preserve values such as arrays.
+
 ### safe
 
 When enabled `flat` will preserve arrays and their
@@ -260,6 +283,8 @@ flatten({
 //     ]
 // }
 ```
+
+## Control flow options
 
 ### maxDepth
 
@@ -308,6 +333,25 @@ flatten({
 //   'key2.keyB': 'valueII'
 // }
 ```
+
+## Event handlers
+
+The `Flattener` and `Stepper` classes comes with built-in event handlers to maintain stacks of visited nodes. You can override these event handler to suit your own needs.
+
+### Flattener callbacks
+
+- `onKey(key, depth)`
+- `onStepsDone(depth)`
+
+These events are used to build the stack of `ancestorKeys` visited while traversing a branch depth first.
+
+### Stepper callbacks
+
+- `onKey(key)`
+
+A stepper steps through all keys on one depth level.
+
+The `onKey` handler of stepper is used to build a stack of visited keys on a particular depth level. It also calls `onKey` for the flattener to allow it to build up its stack.
 
 ## Alternatives
 

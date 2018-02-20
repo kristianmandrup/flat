@@ -1,7 +1,7 @@
 const assert = require('assert')
 const {
   flatten
-} = require('../../index')
+} = require('../../')
 const flat = flatten
 
 const {
@@ -110,6 +110,8 @@ suite('Flatten', function () {
           nested: uintArr
         }
       }
+    }, {
+      logging: true
     })
 
     const expectedWArray = {
