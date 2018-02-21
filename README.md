@@ -90,13 +90,21 @@ Will be retrieved using `leafOpts` property (getter) of `Unflattener`, which you
 - `makePointer` custom function to create the pointer (deep path) in the object
 - `setValue` custom function to use to set the value (by default the *identity* function, ie. simply returns the passed-in value)
 
+#### makePointer
+
+`makePointer(key, value, opts)`
+
+- `stopCondition` function to determine if/when to stop "digging" (default: `reachedMaxDepth`)
+- `whenStopped` what to do when stiopped (default: return current accumulator via `identiy` function)
+- `maxDepth` max depth to dig when using default `reachedMaxDepth` as `stopCondition` (default: `10`)
+
 ### pathFinder
 
 Function to generate a deep path from a key
 
 `pathFinder(key): string[]`
 
-Can f.ex be used to generate a path from a camelCased string using some RegExp magic.
+Can f.ex be used to generate a path from a camelCased string using some `RegExp` (regular expression) magic.
 
 ### delimiter
 
@@ -109,14 +117,17 @@ The built-in leaf function uses the following default options
 ```js
 {
   delimiter: '.',
-  setValue(value) {
+  reachedMaxDepth({ // default stopCondition
+    maxDepth,
+    index
+  }) {
+    return index > maxDepth
+  },
+  identity(value) {
     return value
   },
-  pointer(obj, path) {
-    return path.reduce((acc, key) => {
-      if (acc[key] === undefined) acc[key] = {};
-      return acc[key];
-    }, obj)
+  makePointer(obj, path, opts = {}) {
+    // ...
   }
 }
 ```

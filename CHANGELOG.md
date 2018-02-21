@@ -3,6 +3,7 @@
 ## 1.4.0
 
 - Add experimental (untested) Unflattener
+- Added loads of customisation points to `leaf` function
 
 ## 1.3.0
 
