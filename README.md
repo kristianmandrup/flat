@@ -401,6 +401,7 @@ function transformValue(value, {
   newKey,
   prevKey,
   ancestorKeys,
+  pointer,
   lvKeys
 }) {
   return value
@@ -621,10 +622,15 @@ import {
 } from 'flat2'
 
 function subscribeValue(newKey, newValue, {
+  key,
   target,
-  ancestorKeys
+  ancestorKeys,
+  pointer
 })
-  leaf(target, ancestorKeys.join('.'), newValue)
+  // dig down cia old ancestor key chain and set newValue on new target
+  leaf(target, ancestorKeys, newValue, {
+    // any extra leaf options
+  })
 }
 ```
 
@@ -632,14 +638,8 @@ The function [leaf](https://stackoverflow.com/a/46818701) is also included and e
 
 ```js
 function leaf(obj, path, value) {
-  const pList = path.split('.');
-  const key = pList.pop();
-  const pointer = pList.reduce((accumulator, currentValue) => {
-    if (accumulator[currentValue] === undefined) accumulator[currentValue] = {};
-    return accumulator[currentValue];
-  }, obj);
-  pointer[key] = value;
-  return obj;
+  // create leaf node in obj at path with value
+  return obj
 }
 ```
 
