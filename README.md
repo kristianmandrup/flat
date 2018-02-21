@@ -57,6 +57,9 @@ The Unflattener contains a `defaults` property with the following defaults
 {
   makeLeaf: leaf,
   delimiter: ':',
+  setValue(value) {
+    return value
+  },
   pathFinder(key) {
     return key.split(this.delimiter)
   }
@@ -76,7 +79,16 @@ Sets nested key/value on `obj` which is returned.
 - `obj` is the target (output) object
 - `path` is an array of keys or a string with delimiter
 - `value` is the value to set for the key in the (deeply nested) path
-- `opts` can take a delimiter option (default: `.`)
+- `opts` object with any extra options to use
+
+#### opts
+
+Will be retrieved using `leafOpts` property (getter) of `Unflattener`, which you can override. By default passes on all `opts` of `Unflattener` and the current `key` being processed.
+
+- `delimiter` option (default: `.`)
+- `key` the flat key the leaf is being created for
+- `makePointer` custom function to create the pointer (deep path) in the object
+- `setValue` custom function to use to set the value (by default the *identity* function, ie. simply returns the passed-in value)
 
 ### pathFinder
 
@@ -89,6 +101,25 @@ Can f.ex be used to generate a path from a camelCased string using some RegExp m
 ### delimiter
 
 Delimiter to use for default path finder if no specialised `pathFinder` is provided
+
+### leaf default options
+
+The built-in leaf function uses the following default options
+
+```js
+{
+  delimiter: '.',
+  setValue(value) {
+    return value
+  },
+  pointer(obj, path) {
+    return path.reduce((acc, key) => {
+      if (acc[key] === undefined) acc[key] = {};
+      return acc[key];
+    }, obj)
+  }
+}
+```
 
 ## Flattener
 
@@ -615,6 +646,8 @@ Now `nestedStyles.card.container` will point to `styles.cardContainer` and so on
 Note: You can also publish key/value pair individually using `flattener.publish(key, value, target)`
 
 See also: [Safely accessing deeply nested values](https://medium.com/javascript-inside/safely-accessing-deeply-nested-values-in-javascript-99bf72a0855a)
+
+For this use case you can alternatively use `unflatten` with a custom `pathFinder` option, but you might be more contrained. The publish/subscribe is more powerful.
 
 ## Alternatives
 

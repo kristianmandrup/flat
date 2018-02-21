@@ -2,7 +2,8 @@
 
 ## 1.4.0
 
-- Add (untested) Unflattener
+- Add experimental (untested) Unflattener
+
 ## 1.3.0
 
 - Add experimental publish/subscribe support for post-value mapping and generation
