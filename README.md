@@ -2,6 +2,8 @@
 
 Flatten a nested Javascript object any way you like. Designed to be highly customisable
 
+Also contains a customisable unflattener.
+
 ## Intro
 
 This library is a fully rewritten version of [flat](https://www.npmjs.com/package/flat).
@@ -21,7 +23,74 @@ I welcome a PR to fix this little issue.
 $ npm install flat2 --save
 ```
 
-## Methods
+## What is included
+
+- `Unflattener`
+- `Flattener`
+
+ The `Flattener` is currently more mature.
+
+## Unflattener
+
+Can be used as follows:
+
+```js
+import {
+  createUnflattener,
+  unflatten
+} from 'flat2'
+
+const unflattener = createUnflattener(nested, opts)
+const obj = unflattener.unflat()
+
+// alternative
+const obj2 = unflatten(nested, opts)
+```
+
+## Options
+
+### default options
+
+The Unflattener contains a `defaults` property with the following defaults
+
+```js
+{
+  makeLeaf: leaf,
+  delimiter: ':',
+  pathFinder(key) {
+    return key.split(this.delimiter)
+  }
+}
+```
+
+These defaults can be overriden by setting `_defaults` or by overriding the `defaults` property (getter).
+
+### makeLeaf
+
+Function to create a new (deeply nested) leaf node using the path and value
+
+`leaf(obj, path, value, opts = {})`
+
+Sets nested key/value on `obj` which is returned.
+
+- `obj` is the target (output) object
+- `path` is an array of keys or a string with delimiter
+- `value` is the value to set for the key in the (deeply nested) path
+- `opts` can take a delimiter option (default: `.`)
+
+### pathFinder
+
+Function to generate a deep path from a key
+
+`pathFinder(key): string[]`
+
+Can f.ex be used to generate a path from a camelCased string using some RegExp magic.
+
+### delimiter
+
+Delimiter to use for default path finder if no specialised `pathFinder` is provided
+
+## Flattener
 
 ### flatten(obj, opts)
 
