@@ -40,11 +40,11 @@ import {
   unflatten
 } from 'flat2'
 
-const unflattener = createUnflattener(nested, opts)
+const unflattener = createUnflattener(opts, nestedObj)
 const obj = unflattener.unflat()
 
 // alternative
-const obj2 = unflatten(nested, opts)
+const obj2 = unflatten(nestedObj)
 ```
 
 ## Options
@@ -102,7 +102,7 @@ Will be retrieved using `leafOpts` property (getter) of `Unflattener`, which you
 
 Function to generate a deep path from a key
 
-`pathFinder(key): string[]`
+`pathFinder(flatKey): string[]`
 
 Can f.ex be used to generate a path from a camelCased string using some `RegExp` (regular expression) magic.
 
@@ -160,20 +160,23 @@ const flatObj = flatten({
 
 By default uses `.` as the delimiter. The key generation can be customised in many ways by passing options.
 
-## Flattener
+## flattener instance
 
 Instead of using the convenience `flatten` function, you can also option to instantiate a `Flattener` instance for reuse, to flatten multiple objects.
 
 The flattener is *reset* at the start of each flatten operation.
 
-### createFlattener(obj, options)
+### createFlattener(options, obj)
 
 Returns a `flattener` instance.
 
 ```js
 const { createFlattener } = require('flat2')
 
-const flattener = createFlattener(obj1, opts)
+const myFlattener = createFlattener(opts)
+
+// initialize with (optional) target obj
+const flattener = createFlattener(opts, obj)
 ```
 
 Use `flattener.flat(obj)` to flatten objects
@@ -197,17 +200,17 @@ class MyFlattener extends Flattener {
   // custom overrides/extensions
 }
 
-const flattener = new MyFlattener(obj, opts)
+const flattener = new MyFlattener(opts)
 
 /// use it!
-const flatObj = flattener.flatten()
+const flatObj = flattener.flatten(obj)
 ```
 
-## Options
+## Flattener options
 
 The following are the supported options, ie. second argument to `flatten` function (or `Flattener` constructor)
 
-### delimiter
+### flatten delimiter
 
 Use a custom delimiter for (un)flattening your objects, instead of `.`.
 
@@ -216,7 +219,6 @@ flatten(obj, {
   delimiter: ':'
 }
 ```
-
 
 ## Transform options
 
@@ -637,7 +639,7 @@ function subscribeValue(newKey, newValue, {
 The function [leaf](https://stackoverflow.com/a/46818701) is also included and exported.
 
 ```js
-function leaf(obj, path, value) {
+function leaf(obj, path, value, opts = {}) {
   // create leaf node in obj at path with value
   return obj
 }
