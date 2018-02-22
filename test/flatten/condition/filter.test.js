@@ -5,18 +5,18 @@ const {
 const flat = flatten
 
 suite('.filter', function () {
-  var everything = function () {
+  const everything = function () {
     return false
   }
-  var nothing = function () {
+  const nothing = function () {
     return true
   }
-  var ifHasName = function (obj) {
+  const ifHasName = function (obj) {
     return !obj.name
   }
 
   test('Should let a custom check decide if object should be flattened', function () {
-    var fixture = {
+    const fixture = {
       hello: {
         world: 'hello',
         good: {

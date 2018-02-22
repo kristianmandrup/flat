@@ -1,9 +1,9 @@
 const assert = require('assert')
 const {
-  unflatten
-} = require('../flat')
+  leaf
+} = require('../leaf')
 
-suite('Overwrite + non-object values in key positions', function () {
+suite('option: overwrite', function () {
   test('non-object keys + overwrite should be overwritten', function () {
     assert.deepEqual(unflatten({
       a: null,

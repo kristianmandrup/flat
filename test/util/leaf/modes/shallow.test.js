@@ -1,12 +1,13 @@
 const assert = require('assert')
 const {
-  unflatten
-} = require('../../flat')
+  leaf
+} = require('../leaf')
 
 suite('.shallow', function () {
   test('Should leave nested objects untouched', function () {
-    let unflatObj = unflatten({
-      'hello.world': {
+    const path = ['x']
+    let unflatObj = leaf({}, path, {
+      'x': {
         'foo.fiz': 'bar'
       }
     }, {
@@ -14,25 +15,26 @@ suite('.shallow', function () {
     })
 
     assert.deepEqual(unflatObj, {
-      'hello': {
-        'world': {
-          'foo.fiz': 'bar'
-        }
+      'x': {
+        'foo.fiz': 'bar'
       }
     })
-  });
+  })
 
   test('Should preserve object identity', function () {
     const object = {
-      'hello.world': {
-        foo: 'bar'
+      hello: {
+        world: {
+          foo: 'bar'
+        }
       }
     }
+    const path = ['hello', 'world']
 
-    const unflattened1 = unflatten(object, {
+    const unflattened1 = leaf({}, path, object, {
       shallow: true
     })
-    const unflattened2 = unflatten(object, {
+    const unflattened2 = leaf({}, path, object, {
       shallow: true
     })
 
@@ -48,31 +50,15 @@ suite('.shallow', function () {
         "ir.re.le.vant": 'baz'
       }
     }
+    const path = ['foo']
 
     assert.strictEqual(
-      unflatten(object, {
+      leaf({}, path, object, {
         shallow: true
       }),
-      unflatten(object, {
+      leaf({}, path, object, {
         shallow: true
       })
     )
-  });
-
-  test('Isomorphism 1', function () {
-    const object = {
-      foo: {
-        "ir.re.le.vant": 'baz'
-      }
-    }
-
-    assert.strictEqual(
-      object,
-      flatten(unflatten(object, {
-        shallow: true
-      }), {
-        maxDepth: 1
-      })
-    )
-  });
-});
+  })
+})

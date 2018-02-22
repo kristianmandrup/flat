@@ -76,7 +76,7 @@ suite('Flatten', function () {
   })
 
   test('Identity', function () {
-    var object = {
+    const object = {
       foo: 'baz',
       fiz: 'fuz'
     }

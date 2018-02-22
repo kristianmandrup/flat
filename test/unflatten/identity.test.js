@@ -1,10 +1,10 @@
-var assert = require('assert')
+const assert = require('assert')
 const {
   unflatten
 } = require('../flat')
 
 test('Identity', function () {
-  var object = {
+  const object = {
     foo: {
       bar: 'baz'
     }

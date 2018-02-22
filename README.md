@@ -174,7 +174,7 @@ Use a custom `function` to flatten the keyname. By default, the `delimiter` is i
 Here's an example that uses a colon (`:`) to both prefix and delimit the keyname
 
 ````js
-var obj = {
+const obj = {
   hello: {
     world: {
       again: 'good morning'
@@ -317,7 +317,7 @@ When enabled `flat` will preserve arrays and their
 contents. This is disabled by default.
 
 ```js
-var flatten = require('flat')
+const flatten = require('flat')
 
 flatten({
     this: [
@@ -347,7 +347,7 @@ flatten({
 Maximum number of nested objects to flatten.
 
 ```js
-var flatten = require('flat')
+const flatten = require('flat')
 
 flatten({
     key1: {
@@ -371,7 +371,7 @@ flatten({
 Decide if a value should be flattened any further
 
 ```js
-var flatten = require('flat')
+const flatten = require('flat')
 
 flatten({
     key1: {

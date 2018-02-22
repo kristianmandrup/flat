@@ -5,7 +5,7 @@ const {
 } = require('../../flat')
 const flat = flatten
 
-var primitives = {
+const primitives = {
   String: 'good morning',
   Number: 1234.99,
   Boolean: true,
@@ -16,7 +16,7 @@ var primitives = {
 
 suite('Flatten Primitives', function () {
   Object.keys(primitives).forEach(function (key) {
-    var value = primitives[key]
+    const value = primitives[key]
 
     test(key, function () {
       assert.deepEqual(flatten({
