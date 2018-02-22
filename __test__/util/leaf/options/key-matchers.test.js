@@ -82,6 +82,12 @@ describe('leaf: option - keyMatchers', () => {
       keyMatchers
     })
 
-    expect(result).toBe(obj)
+    const expectedObj = {
+      '.x': {
+        '.y': value
+      }
+    }
+
+    expect(result).toBe(expectedObj)
   })
 })
