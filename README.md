@@ -646,7 +646,8 @@ Will be retrieved using `leafOpts` property (getter) of `Unflattener`, which you
 - `logger` logger to use
 - `shallow` shallow or expand mode (default: `true`)
 - `leafValue` functionality to set the leaf value
-- `isObj` optional custom function to test if a value is a valid object (ie. can be iterated with keys)
+- `isObj` function to test if a value is a valid object (ie. can be iterated with keys)
+- `expander` function to use in expand mode (default: `unflatten` itself!)
 
 #### leafValue
 
@@ -660,7 +661,7 @@ Will be retrieved using `leafOpts` property (getter) of `Unflattener`, which you
 
 - `select` will select `shallow` mode if `shallow` option is set (true)
 - `shallow` is the *identity* function
-- `expand` will call the passed-in `unflatten` function on the value to expand it further (only if value is a valid object)
+- `expand` will call the passed-in `expander` function on the value to expand it further (only if value is a valid object)
 
 ### Unflattening into existing object
 
