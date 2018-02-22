@@ -680,7 +680,7 @@ You can use the following options for fine-grained control:
 Function `makePointer` can use the following options, passed on from leaf:
 
 - `stopCondition` function to determine if/when to stop "digging" (default: `reachedMaxDepth`)
-- `whenStopped` what to do when stiopped (default: return current accumulator via `identiy` function)
+- `whenStopped` what to do when stopped (default: return current accumulator via `identiy` function)
 - `maxDepth` max depth to dig when using default `reachedMaxDepth` as `stopCondition` (default: `10`)
 
 ### buildPath
