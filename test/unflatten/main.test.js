@@ -23,18 +23,26 @@ suite('Unflatten', function () {
   })
 
   test('Nested twice', function () {
+    const obj = unflatten({
+      'hello.world.again': 'good morning'
+    })
     assert.deepEqual({
       hello: {
         world: {
           again: 'good morning'
         }
       }
-    }, unflatten({
-      'hello.world.again': 'good morning'
-    }))
+    }, obj)
   })
 
   test('Multiple Keys', function () {
+    const obj = unflatten({
+      'hello.lorem.ipsum': 'again',
+      'hello.lorem.dolor': 'sit',
+      'world.lorem.ipsum': 'again',
+      'world.lorem.dolor': 'sit'
+    })
+
     assert.deepEqual({
       hello: {
         lorem: {
@@ -48,26 +56,22 @@ suite('Unflatten', function () {
           dolor: 'sit'
         }
       }
-    }, unflatten({
-      'hello.lorem.ipsum': 'again',
-      'hello.lorem.dolor': 'sit',
-      'world.lorem.ipsum': 'again',
-      'world.lorem.dolor': 'sit'
-    }))
+    }, obj)
   })
 
   test('Custom Delimiter', function () {
+    const result = unflatten({
+      'hello world again': 'good morning'
+    }, {
+      delimiter: ' '
+    })
     assert.deepEqual({
       hello: {
         world: {
           again: 'good morning'
         }
       }
-    }, unflatten({
-      'hello world again': 'good morning'
-    }, {
-      delimiter: ' '
-    }))
+    }, result)
   })
 
   test('Custom keynames', function () {

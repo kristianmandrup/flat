@@ -639,6 +639,7 @@ Will be retrieved using `leafOpts` property (getter) of `Unflattener`, which you
 - `key` flat key the leaf is being created for
 - `startDepth` the initial depth, (default: `0`)
 - `pathKeyTransform` function to transform path key
+- `keynames` alias for `pathKeyTransform` for compatibility with original `flat`
 - `makePointer` custom function to create the pointer (deep path) in the object
 - `onValueAt` function to handle specific values such as `undefined`
 - `nextDepth` function to calculate next depth, (default: increments by 1)
