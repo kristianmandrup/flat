@@ -5,7 +5,7 @@ const {
 const log = console.log
 
 describe('Unflatten: makeLeaf', () => {
-  it('makeLeaf not a function', () => {
+  it('not a function', () => {
     const makeLeaf = 'oops'
 
     const result = () => unflatten(obj, {
@@ -15,7 +15,7 @@ describe('Unflatten: makeLeaf', () => {
     expect(result).toThrow()
 
   })
-  it('custom makeLeaf function', () => {
+  it('valid function', () => {
     const obj = {
       'x.y': {
         a: 32

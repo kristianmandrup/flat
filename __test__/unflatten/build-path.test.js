@@ -11,7 +11,7 @@ describe('Unflatten: buildPath', () => {
     }
   }
 
-  it('buildPath not a function', () => {
+  it('not a function', () => {
     const buildPath = 'oops'
 
     const result = () => unflatten(obj, {
@@ -20,7 +20,7 @@ describe('Unflatten: buildPath', () => {
 
     expect(result).toThrow()
   })
-  it('buildPath returns invalid path', () => {
+  it('returns invalid path', () => {
     const buildPath = () => 42
 
     const result = () => unflatten(obj, {
@@ -29,7 +29,7 @@ describe('Unflatten: buildPath', () => {
 
     expect(result).toThrow()
   })
-  it('custom valid buildPath function', () => {
+  it('valid function', () => {
     const buildPath = (key) => key.split('.')
 
     const result = () => unflatten(obj, {

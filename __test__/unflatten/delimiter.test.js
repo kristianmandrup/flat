@@ -11,7 +11,7 @@ describe('Unflatten: delimiter', () => {
     }
   }
 
-  it('delimiter not valid', () => {
+  it('not valid', () => {
     const delimiter = 42
     const result = () => unflatten(obj, {
       delimiter
@@ -50,7 +50,7 @@ describe('Unflatten: delimiter', () => {
     expect(abe.Zebra).toBeDefined()
   })
 
-  it('custom valid delimiter', () => {
+  it('valid', () => {
     const obj = {
       'x:y': {
         a: 32
