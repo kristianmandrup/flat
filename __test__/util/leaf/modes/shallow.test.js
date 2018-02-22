@@ -13,7 +13,7 @@ describe('.shallow', () => {
       shallow: true
     })
 
-    expect(unflatObj, {
+    expect(unflatObj).toEqual({
       'x': {
         'foo.fiz': 'bar'
       }
@@ -37,10 +37,11 @@ describe('.shallow', () => {
       shallow: true
     })
 
-    expect(unflattened1.hello.world, {
+    expect(unflattened1.hello.world).toEqual({
       foo: 'bar'
     })
-    assert.strictEqual(unflattened1.hello.world, unflattened2.hello.world)
+
+    expect(unflattened1.hello.world).toBe(unflattened2.hello.world)
   })
 
   it('Identity', () => {
@@ -51,13 +52,15 @@ describe('.shallow', () => {
     }
     const path = ['foo']
 
-    assert.strictEqual(
-      leaf({}, path, object, {
-        shallow: true
-      }),
-      leaf({}, path, object, {
-        shallow: true
-      })
-    )
+    const x1 = leaf({}, path, object, {
+      shallow: true
+    })
+
+    const x2 = leaf({}, path, object, {
+      shallow: true
+    })
+
+
+    expect(x1).toBe(x2)
   })
 })

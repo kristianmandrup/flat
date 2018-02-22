@@ -9,7 +9,7 @@ const {
 
 describe('Flatten', () => {
   it('Custom Delimiter', () => {
-    expect(flatten({
+    const result = flatten({
       hello: {
         world: {
           again: 'good morning'
@@ -17,15 +17,17 @@ describe('Flatten', () => {
       }
     }, {
       delimiter: ':'
-    }), {
+    })
+
+    expect(result).toEqual({
       'hello:world:again': 'good morning'
     })
   })
 
-  it('To upper case', () => {
+  describe('To upper case', () => {
 
-    it('Custom keyname', () => {
-      expect(flatten({
+    it('transforms key to upper case', () => {
+      const result = flatten({
         hello: {
           world: {
             again: 'good morning'
@@ -33,32 +35,34 @@ describe('Flatten', () => {
         }
       }, {
         toUpperCase: true
-      }), {
+      })
+
+      expect(result).toEqual({
         'HELLO.WORLD.AGAIN': 'good morning'
       })
     })
-
-    it('To lower case', () => {
-      expect(
-        flatten({
-          HELLO: {
-            WORLD: {
-              AGAIN: 'good morning'
-            }
+  })
+  describe('To lower case', () => {
+    it('transforms key to lower case', () => {
+      const result = flatten({
+        HELLO: {
+          WORLD: {
+            AGAIN: 'good morning'
           }
-        }, {
-          toLowerCase: true,
-          logging: true,
-          logOnly: ['Flattener']
-        }),
+        }
+      }, {
+        toLowerCase: true,
+        logging: true,
+        logOnly: ['Flattener']
+      })
 
-        {
-          'hello.world.again': 'good morning',
+      expect(result).toEqual({
+        'hello.world.again': 'good morning',
 
-          keyname: function (prev, key) {
-            return prev ? prev + ':' + key : ':' + key
-          }
-        })
+        keyname: function (prev, key) {
+          return prev ? prev + ':' + key : ':' + key
+        }
+      })
     })
   })
 
@@ -82,22 +86,19 @@ describe('Flatten', () => {
 
     const flat1 = flatten(object)
     const flat2 = flatten(object)
-    // log({
-    //   flat1,
-    //   flat2
-    // })
-    // assert.strictEqual(flat1, flat2)
-    expect(flat1, flat2)
+
+    expect(flat1).toEqual(flat2)
   })
 
   if (typeof Buffer !== 'undefined') it('Buffer', () => {
-    expect(flatten({
+    const result = flatten({
       hello: {
         empty: {
           nested: new Buffer('test')
         }
       }
-    }), {
+    })
+    expect(result).toEqual({
       'hello.empty.nested': new Buffer('test')
     })
   })
@@ -117,11 +118,11 @@ describe('Flatten', () => {
       'hello.empty.nested': uintArr
     }
 
-    expect(flatWArray, expectedWArray)
+    expect(flatWArray).toEqual(expectedWArray)
   })
 
   it('Custom Depth', () => {
-    expect(flatten({
+    const result = flatten({
       hello: {
         world: {
           again: 'good morning'
@@ -134,7 +135,9 @@ describe('Flatten', () => {
       }
     }, {
       maxDepth: 2
-    }), {
+    })
+
+    expect(result).toEqual({
       'hello.world': {
         again: 'good morning'
       },

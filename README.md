@@ -19,6 +19,12 @@ I welcome a PR to fix this little issue.
 
 The unflattener is WIP and has not yet been tested. Please help test it and make it an awesome unflattener! It has been designed to be highly customisable as well.
 
+## Async support
+
+Experimental async support has been added to `master` branch. Has not yet been tested (WIP). Please help make async flat/unflat blazingly fast and easy to use!
+
+Add `async` option for `Flattener` and `Unflattener`. If set, will call async method/function variant instead.
+
 ## Installation
 
 ```bash
@@ -28,7 +34,7 @@ $ npm install flat2 --save
 ## What is included
 
 - [Unflattener](#Unflattener) (experimental: *WIP*)
-- [Flattener](#Flattener) ("mature")
+- [Flattener](#Flattener) (mostly working)
 
 ## Flattener
 

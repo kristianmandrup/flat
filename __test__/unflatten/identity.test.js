@@ -9,5 +9,5 @@ it('Identity', () => {
     }
   }
 
-  assert.strictEqual(unflatten(object), unflatten(object))
+  expect(unflatten(object), unflatten(object))
 });

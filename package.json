@@ -3,7 +3,7 @@
   "version": "1.4.0",
   "main": "lib",
   "scripts": {
-    "test": "mocha test/**/*.test.js --recursive -u tdd --reporter spec"
+    "test": "jest"
   },
   "license": "MIT",
   "description": "Flatten a nested Javascript object any way you like. Designed to be highly customisable",

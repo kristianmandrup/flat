@@ -14,7 +14,7 @@ describe('Unflatten', () => {
 
     log('result', result)
 
-    expect(result, {
+    expect(result).toEqual({
       hello: {
         world: 'good morning'
       }

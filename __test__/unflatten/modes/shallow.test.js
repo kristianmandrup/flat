@@ -38,7 +38,7 @@ describe('.shallow', () => {
     expect(unflattened1.hello.world, {
       foo: 'bar'
     })
-    assert.strictEqual(unflattened1.hello.world, unflattened2.hello.world)
+    expect(unflattened1.hello.world, unflattened2.hello.world)
   })
 
   it('Identity', () => {
@@ -48,7 +48,7 @@ describe('.shallow', () => {
       }
     }
 
-    assert.strictEqual(
+    expect(
       unflatten(object, {
         shallow: true
       }),
@@ -65,7 +65,7 @@ describe('.shallow', () => {
       }
     }
 
-    assert.strictEqual(
+    expect(
       object,
       flatten(unflatten(object, {
         shallow: true

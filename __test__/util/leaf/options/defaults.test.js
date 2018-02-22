@@ -8,15 +8,18 @@ const {
 
 describe('leaf: option - defaults', () => {
   const obj = {
-    'x.y': {
+    'x': {
       a: 32
     }
   }
 
+  path = ['x']
+  value = 'hello'
+
   it('not an object', () => {
     const defaults = 'oops'
 
-    const result = () => unflatten(obj, {
+    const result = () => leaf(obj, path, value, {
       defaults
     })
 
@@ -25,7 +28,7 @@ describe('leaf: option - defaults', () => {
   it('an empty object', () => {
     const defaults = {}
 
-    const result = () => unflatten(obj, {
+    const result = () => leaf(obj, path, value, {
       defaults
     })
 
@@ -36,7 +39,7 @@ describe('leaf: option - defaults', () => {
       x: 32
     }
 
-    const result = () => unflatten(obj, {
+    const result = () => leaf(obj, path, value, {
       defaults
     })
 
@@ -51,7 +54,7 @@ describe('leaf: option - defaults', () => {
       overwrite: false
     }
 
-    const result = () => unflatten(obj, {
+    const result = () => leaf(obj, path, value, {
       defaults
     })
 
