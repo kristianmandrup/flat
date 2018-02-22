@@ -634,6 +634,7 @@ Will be retrieved using `leafOpts` property (getter) of `Unflattener`, which you
 
 ### leaf options
 
+- `defaults` pass in your own custom set of default options
 - `delimiter` delimiter used by split, a string or regular expression (default: `.`)
 - `key` flat key the leaf is being created for
 - `startDepth` the initial depth, (default: `0`)
