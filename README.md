@@ -89,6 +89,10 @@ Will be retrieved using `leafOpts` property (getter) of `Unflattener`, which you
 - `key` the flat key the leaf is being created for
 - `makePointer` custom function to create the pointer (deep path) in the object
 - `setValue` custom function to use to set the value (by default the *identity* function, ie. simply returns the passed-in value)
+- `onValueAt` function to handle specific values such as `undefined`
+- `selectKey` function to select the next key
+- `keyMatchers` list of key matcher functions for special keys such as a `RegExp`
+- `keyQueryMatcher` generic query matcher function to use for key matchers
 
 #### makePointer
 
@@ -403,7 +407,6 @@ function transformValue(value, {
   newKey,
   prevKey,
   ancestorKeys,
-  pointer,
   lvKeys
 }) {
   return value
@@ -626,8 +629,7 @@ import {
 function subscribeValue(newKey, newValue, {
   key,
   target,
-  ancestorKeys,
-  pointer
+  ancestorKeys
 })
   // dig down cia old ancestor key chain and set newValue on new target
   leaf(target, ancestorKeys, newValue, {
