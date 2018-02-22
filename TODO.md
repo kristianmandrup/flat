@@ -14,6 +14,15 @@ Partly done:
 For each value, add option to subscribe for lazy/post generation.
 Currently there is experimental support for this, but it hasn't really been tested.
 
+## Async support
+
+Added experimental support for async flatten/unflatten via:
+
+- `flatAsync`
+- `unflatAsync`
+
+Needs more refactoring/cleanup and testing!
+
 ## Tests
 
 Write full test suites for all skeleton test files

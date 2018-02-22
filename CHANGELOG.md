@@ -8,6 +8,7 @@
 - extract type check functions into separate util file
 - switched to using `jest` for testing
 - refactored all tests from `mocha` to `jest`
+- Added experimental support for async flatten/unflatten
 
 ## 1.3.0
 
