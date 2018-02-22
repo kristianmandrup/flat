@@ -14,8 +14,10 @@ It should now be much easier to test, debug and extend. It is designed to be way
 
 ## Status
 
-All tests pass except for `typed arrays` which is rarely used in any case.
+All flattener tests pass except for `typed arrays` which is rarely used in any case.
 I welcome a PR to fix this little issue.
+
+The unflattener is WIP and has not yet been tested. Please help test it and make it an awesome unflattener! It has been designed to be highly customisable as well.
 
 ## Installation
 
@@ -25,163 +27,8 @@ $ npm install flat2 --save
 
 ## What is included
 
-- `Unflattener`
-- `Flattener`
-
- The `Flattener` is currently more mature.
-
-## Unflattener
-
-Can be used as follows:
-
-```js
-import {
-  createUnflattener,
-  unflatten
-} from 'flat2'
-
-const unflattener = createUnflattener(opts, nestedObj)
-const obj = unflattener.unflat()
-
-// alternative
-const obj2 = unflatten(nestedObj)
-```
-
-By default, `unflatten` creates and flattens into an empty object. You can change this by overriding the method `createInitialOutputObj`
-
-### Unflatten into existing object
-
-You can also unflatten into existing object by passing in an `output` option with the output object to use as base.
-
-```js
-const modifiedExistingObj = unflatten(nestedObj, {output: existingObj})
-```
-
-## Options
-
-### default options
-
-The `Unflattener` contains a `defaults` property with the following defaults
-
-```js
-{
-  makeLeaf: leaf,
-  buildPath(key) {
-    return key.split(this.delimiter)
-  },
-  delimiters: {
-    default: '.',
-    camelCase: /([A-Z]+|[A-Z]?[a-z]+)(?=[A-Z]|\b)/
-  }
-}
-```
-
-These defaults can be overriden by setting `_defaults` or by overriding the `defaults` property (getter).
-
-### makeLeaf
-
-Function to create a new (deeply nested) leaf node using the path and value
-
-`makeLeaf(obj, path, value, opts = {})`
-
-Sets nested key/value on `obj` which is returned.
-
-- `obj` is the target (output) object (can be empty or pre-populated)
-- `path` is an array of keys or a string with delimiter
-- `value` is the value to set for the key in the (deeply nested) path
-- `opts` object with any extra options to use
-
-#### opts
-
-Will be retrieved using `leafOpts` property (getter) of `Unflattener`, which you can override. By default passes on all `opts` of `Unflattener` and the current `key` being processed.
-
-### leaf options
-
-- `delimiter` delimiter used by split, a string or regular expression (default: `.`)
-- `key` flat key the leaf is being created for
-- `startDepth` the initial depth, (default: `0`)
-- `pathKeyTransform` function to transform path key
-- `makePointer` custom function to create the pointer (deep path) in the object
-- `onValueAt` function to handle specific values such as `undefined`
-- `nextDepth` function to calculate next depth, (default: increments by 1)
-- `validateOn` whether validation of options is turned on (default: `false`)
-- `validator` factory to create a set of validator functions
-- `logger` logger to use
-- `shallow` shallow or expand mode (default: `true`)
-- `leafValue` functionality to set the leaf value
-- `isObj` optional custom function to test if a value is a valid object (ie. can be iterated with keys)
-
-#### leafValue
-
-`leafValue` if set, must be an object with:
-
-- `select(opts)` function to select what leaf value method to use based on options
-- `shallow` function to use in `shallow` mode
-- `expand` function to use in `expand` mode
-
-`leafValue` defaults:
-
-- `select` will select `shallow` mode if `shallow` option is set (true)
-- `shallow` is the *identity* function
-- `expand` will call the passed-in `unflatten` function on the value to expand it further (only if value is a valid object)
-
-### Unflattening into existing object
-
-You can use the following options for fine-grained control:
-
-- `selectKey` function to select the next key
-- `keyMatchers` list of key matcher functions for special keys such as a `RegExp`
-- `keyQueryMatcher` generic query matcher function to use for key matchers
-- `overwrite` true or false
-
-#### makePointer
-
-`makePointer(key, value, opts)`
-
-Function `makePointer` can use the following options, passed on from leaf:
-
-- `stopCondition` function to determine if/when to stop "digging" (default: `reachedMaxDepth`)
-- `whenStopped` what to do when stiopped (default: return current accumulator via `identiy` function)
-- `maxDepth` max depth to dig when using default `reachedMaxDepth` as `stopCondition` (default: `10`)
-
-### buildPath
-
-Function to generate a deep path from a key
-
-`buildPath(flatKey, opts): string[]`
-
-Can f.ex be used to generate a path from a camelCased string using some `RegExp` (regular expression) magic (see default delimiters below).
-
-### delimiter
-
-Delimiter to use for default path builder if no (specialised) `buildPath` function is provided.
-
-The delimiters currently included are:
-
-- `default` (splits on `.`)
-- `camelCase` a complex RegExp taken from [regex to split camelCase or titleCase](https://stackoverflow.com/questions/7593969/regex-to-split-camelcase-or-titlecase-advanced)
-
-### leaf default options
-
-The built-in leaf function uses the following default options
-
-```js
-{
-  delimiter: '.',
-  reachedMaxDepth({ // default stopCondition
-    maxDepth,
-    index
-  }) {
-    return index > maxDepth
-  },
-  identity(value) {
-    return value
-  },
-  makePointer(obj, path, opts = {}) {
-    // ...
-  }
-}
-```
+- [Unflattener](#Unflattener) (experimental: *WIP*)
+- [Flattener](#Flattener) ("mature")
 
 ## Flattener
 
@@ -710,6 +557,168 @@ Note: You can also publish key/value pair individually using `flattener.publish(
 See also: [Safely accessing deeply nested values](https://medium.com/javascript-inside/safely-accessing-deeply-nested-values-in-javascript-99bf72a0855a)
 
 For this use case you can alternatively use `unflatten` with a custom `pathFinder` option, but you might be more contrained. The publish/subscribe is more powerful.
+
+## Unflattener
+
+### DISCLAIMER
+
+The unflattener has yet to be thoroughly tested. Please see the current test suite.
+I have yet to run the unflattener even once!
+
+Please help make the unflattener work with all the infrastructure options added so far. It will be awesome!
+
+### Unflattener Usage
+
+The unflattener be used as follows:
+
+```js
+import {
+  createUnflattener,
+  unflatten
+} from 'flat2'
+
+const unflattener = createUnflattener(opts, nestedObj)
+const obj = unflattener.unflat()
+
+// alternative
+const obj2 = unflatten(nestedObj)
+```
+
+By default, `unflatten` creates and flattens into an empty object. You can change this by overriding the method `createInitialOutputObj`
+
+### Unflatten into existing object
+
+You can also unflatten into existing object by passing in an `output` option with the output object to use as base.
+
+```js
+const modifiedExistingObj = unflatten(nestedObj, {output: existingObj})
+```
+
+## Options
+
+### default options
+
+The `Unflattener` contains a `defaults` property with the following defaults
+
+```js
+{
+  makeLeaf: leaf,
+  buildPath(key) {
+    return key.split(this.delimiter)
+  },
+  delimiters: {
+    default: '.',
+    camelCase: /([A-Z]+|[A-Z]?[a-z]+)(?=[A-Z]|\b)/
+  }
+}
+```
+
+These defaults can be overriden by setting `_defaults` or by overriding the `defaults` property (getter).
+
+### makeLeaf
+
+Function to create a new (deeply nested) leaf node using the path and value
+
+`makeLeaf(obj, path, value, opts = {})`
+
+Sets nested key/value on `obj` which is returned.
+
+- `obj` is the target (output) object (can be empty or pre-populated)
+- `path` is an array of keys or a string with delimiter
+- `value` is the value to set for the key in the (deeply nested) path
+- `opts` object with any extra options to use
+
+#### opts
+
+Will be retrieved using `leafOpts` property (getter) of `Unflattener`, which you can override. By default passes on all `opts` of `Unflattener` and the current `key` being processed.
+
+### leaf options
+
+- `delimiter` delimiter used by split, a string or regular expression (default: `.`)
+- `key` flat key the leaf is being created for
+- `startDepth` the initial depth, (default: `0`)
+- `pathKeyTransform` function to transform path key
+- `makePointer` custom function to create the pointer (deep path) in the object
+- `onValueAt` function to handle specific values such as `undefined`
+- `nextDepth` function to calculate next depth, (default: increments by 1)
+- `validateOn` whether validation of options is turned on (default: `false`)
+- `validator` factory to create a set of validator functions
+- `logger` logger to use
+- `shallow` shallow or expand mode (default: `true`)
+- `leafValue` functionality to set the leaf value
+- `isObj` optional custom function to test if a value is a valid object (ie. can be iterated with keys)
+
+#### leafValue
+
+`leafValue` if set, must be an object with:
+
+- `select(opts)` function to select what leaf value method to use based on options
+- `shallow` function to use in `shallow` mode
+- `expand` function to use in `expand` mode
+
+`leafValue` defaults:
+
+- `select` will select `shallow` mode if `shallow` option is set (true)
+- `shallow` is the *identity* function
+- `expand` will call the passed-in `unflatten` function on the value to expand it further (only if value is a valid object)
+
+### Unflattening into existing object
+
+You can use the following options for fine-grained control:
+
+- `selectKey` function to select the next key
+- `keyMatchers` list of key matcher functions for special keys such as a `RegExp`
+- `keyQueryMatcher` generic query matcher function to use for key matchers
+- `overwrite` true or false
+
+#### makePointer
+
+`makePointer(key, value, opts)`
+
+Function `makePointer` can use the following options, passed on from leaf:
+
+- `stopCondition` function to determine if/when to stop "digging" (default: `reachedMaxDepth`)
+- `whenStopped` what to do when stiopped (default: return current accumulator via `identiy` function)
+- `maxDepth` max depth to dig when using default `reachedMaxDepth` as `stopCondition` (default: `10`)
+
+### buildPath
+
+Function to generate a deep path from a key
+
+`buildPath(flatKey, opts): string[]`
+
+Can f.ex be used to generate a path from a camelCased string using some `RegExp` (regular expression) magic (see default delimiters below).
+
+### delimiter
+
+Delimiter to use for default path builder if no (specialised) `buildPath` function is provided.
+
+The delimiters currently included are:
+
+- `default` (splits on `.`)
+- `camelCase` a complex RegExp taken from [regex to split camelCase or titleCase](https://stackoverflow.com/questions/7593969/regex-to-split-camelcase-or-titlecase-advanced)
+
+### leaf default options
+
+The built-in leaf function uses the following default options
+
+```js
+{
+  delimiter: '.',
+  reachedMaxDepth({ // default stopCondition
+    maxDepth,
+    index
+  }) {
+    return index > maxDepth
+  },
+  identity(value) {
+    return value
+  },
+  makePointer(obj, path, opts = {}) {
+    // ...
+  }
+}
+```
 
 ## Alternatives
 
