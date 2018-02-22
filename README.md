@@ -97,14 +97,26 @@ Will be retrieved using `leafOpts` property (getter) of `Unflattener`, which you
 
 ### leaf options
 
-- `delimiter` option (default: `.`)
-- `key` the flat key the leaf is being created for
-- `startDepth` the initial depth, by default 0
+- `delimiter` delimiter used by split, a string or regular expression (default: `.`)
+- `key` flat key the leaf is being created for
+- `startDepth` the initial depth, (default: `0`)
 - `pathKeyTransform` function to transform path key
 - `makePointer` custom function to create the pointer (deep path) in the object
-- `setValue` custom function to use to set the value (by default the *identity* function, ie. simply returns the passed-in value)
 - `onValueAt` function to handle specific values such as `undefined`
-- `nextDepth` function to calculate next depth, by default increments by 1
+- `nextDepth` function to calculate next depth, (default: increments by 1)
+- `validateOn` whether validation of options is turned on (default: `false`)
+- `validator` factory to create a set of validator functions
+- `logger` logger to use
+- `shallow` shallow or expand mode (default: `true`)
+- `leafValue` functionality to set the leaf value
+
+`leafValue` if set, must be an object with:
+
+- `select(opts)` function to select what leaf value method to use based on options
+- `shallow` function to use in `shallow` mode
+- `expand` function to use in `expand` mode
+
+By default `shallow` is the *identity* function and expand calls the passed-in `unflatten` function on the value to expand it further (if an object)
 
 ### Unflattening into existing object
 
@@ -113,6 +125,7 @@ You can use the following options for fine-grained control:
 - `selectKey` function to select the next key
 - `keyMatchers` list of key matcher functions for special keys such as a `RegExp`
 - `keyQueryMatcher` generic query matcher function to use for key matchers
+- `overwrite` true or false
 
 #### makePointer
 
