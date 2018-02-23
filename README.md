@@ -602,6 +602,68 @@ const modifiedExistingObj = unflatten(nestedObj, {output: existingObj})
 
 ## Options
 
+- `buildPath`
+- `delimiter`
+- `valueSrc`
+- `lookupValueAt`
+- `keys`
+- `getKeys`
+- `skipKey`
+- `keysFilter`
+- `defaults`
+- `makeLeaf`
+
+### buildPath
+
+Function to generate a deep path (list of strings) from a flat key
+
+`buildPath(flatKey, opts)`
+
+Can f.ex be used to generate a path from a camelCased string using some regular expression "magic" (see default delimiters below).
+
+### delimiter
+
+Delimiter to use for default path builder if no (specialised) `buildPath` function is provided.
+
+The delimiters currently included are:
+
+- `default` (splits on `.`)
+- `camelCase` a complex RegExp taken from [regex to split camelCase or titleCase](https://stackoverflow.com/questions/7593969/regex-to-split-camelcase-or-titlecase-advanced)
+
+### valueSrc
+
+Use `valueSrc` to provide a value source to lookup values for the flat keys iterated.
+By default, the `valueSrc` is the target object (where keys are looked up), but it can be any external resource as well.
+
+### lookupValueAt
+
+`lookupValueAt(flatKey)`
+
+Use `lookupValueAt` to provide a custom way to lookup the value for a key being iterated. By default, it simply returns the value for the key of the target object.
+
+### keys
+
+If provided, defines the exact set of keys to be iterated.
+By default the `getKeys` function is used to determine the keys.
+
+### getKeys
+
+Use `getKeys` to provide a custom method to get the keys to be iterated.
+By default simply uses `Object.keys` on the `valueSrc` (which by default is the `target` object)
+
+### skipKey
+
+Use to skip any key while iterating. A more "dynamic" alternative to filter on the keys list.
+
+### excludeKeys
+
+Quick way to filter out any keys in the exclude list (string list) provided.
+Note: `keysFilter` will still be run after exclusion.
+
+### keysFilter
+
+Use to up-front filter out any keys for iteration that match some pre-defined criteria.
+
 ### defaults
 
 The `Unflattener` contains a `defaults` property with the following defaults
@@ -629,42 +691,59 @@ Function to create a new (deeply nested) leaf node using the path and value
 
 Sets nested key/value on `obj` which is returned.
 
+Arguments:
+
 - `obj` is the target (output) object (can be empty or pre-populated)
 - `path` is an array of keys or a string with delimiter
 - `value` is the value to set for the key in the (deeply nested) path
-- `opts` object with any extra options to use
+- `opts` options to use for fine-control
 
-#### opts
+#### makeLeaf opts
 
-Will be retrieved using `leafOpts` property (getter) of `Unflattener`, which you can override. By default passes on all `opts` of `Unflattener` and the current `key` being processed.
+The `makeLeaf` options (ie. `opts`) are retrieved using `leafOpts` property (getter) of `Unflattener`. By default it passes on all `opts` of `Unflattener` and the current `flatKey` being processed.
 
 ### leaf options
 
-- `defaults` pass in your own custom set of default options
+The leaf options can be categorized as follows:
+
+- Basic
+- Validation and Logging
+- Advanced
+
+#### Basic
+
 - `delimiter` delimiter used by split, usually a string or regular expression (default: `.`)
 - `startDepth` the initial depth, (default: `0`)
-- `keyName(pathKey, opts)` function to transform path key (alias: `keynames` for flat for compatibility with original `flat`)
+- `shallow` shallow or expand mode (default: `true`)
+- `keyName(pathKey, opts)` function to transform path key (alias: `keynames` for compatibility with original `flat`)
+
+#### Validation and Logging
+
+- `validateOn` whether validation of options is turned on (default: `false`)
+- `validator(opts)` factory to create a set of validator functions
+- `logger(opts)` logger to use
+
+#### Advanced
+
+- `defaults` pass in your own custom set of default options
 - `makePointer(key, value, opts)` custom function to create the pointer (deep path) in the object. Pointer returned must have `value` and `setValue(value)`
 - `selectAt(acc, key, selectOpts)` function to select the next key and value (if leaf into existing object)
 - `accValue(value, opts)` calculate next accumulator value, if `undefined` set to `{}`undefined` in order to dig down into object
 - `nextDepth(depth, depthOpts, opts)` function to calculate next depth, (default: increments by 1)
-- `validateOn` whether validation of options is turned on (default: `false`)
-- `validator(opts)` factory to create a set of validator functions
-- `logger(opts)` logger to use
-- `shallow` shallow or expand mode (default: `true`)
 - `leafValue` functionality to set the leaf value
 - `isObj(value)` function to test if a value is a valid object (ie. can be iterated with keys)
 - `expander(value, opts)` function to use in expand mode (default: `unflatten` itself!)
 
 #### leafValue
 
-`leafValue` if set, must be an object with:
+The `leafValue` option can be used to control how the leaf value is generated.
+It must be an object with:
 
 - `select(opts)` function to select what leaf value method to use based on options
 - `shallow(value, opts)` function to use in `shallow` mode
 - `expand(value, opts)` function to use in `expand` mode
 
-`leafValue` defaults:
+defaults:
 
 - `select(opts)` will select `shallow` mode if `shallow` option is set (true)
 - `shallow(value, opts)` is the *identity* function
@@ -683,7 +762,7 @@ You can use the following options for fine-grained control:
 
 `makePointer(key, value, opts)`
 
-Function `makePointer` can use the following options (passed on from leaf):
+Function `makePointer` is used to calculate and create the pointer used to set the leaf value on. It takes the following options:
 
 - `keyName(pathKey, opts)` function to transform path key (alias: `keynames` for flat for compatibility with original `flat`)
 - `stopCondition(conditionOpts)` function to determine if/when to stop "digging" (default: `reachedMaxDepth`)
@@ -700,23 +779,6 @@ Function `makePointer` can use the following options (passed on from leaf):
 - `leafValue` functionality to set the leaf value
 - `isExistingObject(obj, opts)` used to determine if we are making pointer into existing object
 - `createPointer(ref, key, opts)` create the pointer to be returned ie. by default an object with `value` and `setValue(value)`
-
-### buildPath
-
-Function to generate a deep path from a key
-
-`buildPath(flatKey, opts): string[]`
-
-Can f.ex be used to generate a path from a camelCased string using some `RegExp` (regular expression) magic (see default delimiters below).
-
-### delimiter
-
-Delimiter to use for default path builder if no (specialised) `buildPath` function is provided.
-
-The delimiters currently included are:
-
-- `default` (splits on `.`)
-- `camelCase` a complex RegExp taken from [regex to split camelCase or titleCase](https://stackoverflow.com/questions/7593969/regex-to-split-camelcase-or-titlecase-advanced)
 
 ### leaf default options
 
