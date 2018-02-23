@@ -602,7 +602,7 @@ const modifiedExistingObj = unflatten(nestedObj, {output: existingObj})
 
 ## Options
 
-### default options
+### defaults
 
 The `Unflattener` contains a `defaults` property with the following defaults
 
@@ -641,54 +641,63 @@ Will be retrieved using `leafOpts` property (getter) of `Unflattener`, which you
 ### leaf options
 
 - `defaults` pass in your own custom set of default options
-- `delimiter` delimiter used by split, a string or regular expression (default: `.`)
-- `key` flat key the leaf is being created for
+- `delimiter` delimiter used by split, usually a string or regular expression (default: `.`)
 - `startDepth` the initial depth, (default: `0`)
-- `pathKeyTransform` function to transform path key
-- `keynames` alias for `pathKeyTransform` for compatibility with original `flat`
-- `makePointer` custom function to create the pointer (deep path) in the object
-- `onValueAt` function to handle specific values such as `undefined`
-- `nextDepth` function to calculate next depth, (default: increments by 1)
+- `keyName(pathKey, opts)` function to transform path key (alias: `keynames` for flat for compatibility with original `flat`)
+- `makePointer(key, value, opts)` custom function to create the pointer (deep path) in the object
+- `accValue(acc, key, valueOpts)` by default used to set initial value `{}` if `undefined` in order to dig down into object
+- `nextDepth(depth, depthOpts, opts)` function to calculate next depth, (default: increments by 1)
 - `validateOn` whether validation of options is turned on (default: `false`)
-- `validator` factory to create a set of validator functions
-- `logger` logger to use
+- `validator(opts)` factory to create a set of validator functions
+- `logger(opts)` logger to use
 - `shallow` shallow or expand mode (default: `true`)
 - `leafValue` functionality to set the leaf value
-- `isObj` function to test if a value is a valid object (ie. can be iterated with keys)
-- `expander` function to use in expand mode (default: `unflatten` itself!)
+- `isObj(value)` function to test if a value is a valid object (ie. can be iterated with keys)
+- `expander(value, opts)` function to use in expand mode (default: `unflatten` itself!)
 
 #### leafValue
 
 `leafValue` if set, must be an object with:
 
 - `select(opts)` function to select what leaf value method to use based on options
-- `shallow` function to use in `shallow` mode
-- `expand` function to use in `expand` mode
+- `shallow(value, opts)` function to use in `shallow` mode
+- `expand(value, opts)` function to use in `expand` mode
 
 `leafValue` defaults:
 
-- `select` will select `shallow` mode if `shallow` option is set (true)
-- `shallow` is the *identity* function
-- `expand` will call the passed-in `expander` function on the value to expand it further (only if value is a valid object)
+- `select(opts)` will select `shallow` mode if `shallow` option is set (true)
+- `shallow(value, opts)` is the *identity* function
+- `expand(value, opts)` will call the passed-in `expander` function on the value to expand it further (only if value is a valid object)
 
 ### Unflattening into existing object
 
 You can use the following options for fine-grained control:
 
-- `selectKey` function to select the next key
+- `selectKey(acc, key, keyMatchers, opts)` function to select the next key
+- `keyQueryMatcher(keys, keyQuery)` generic query matcher function to use for key matchers
 - `keyMatchers` list of key matcher functions for special keys such as a `RegExp`
-- `keyQueryMatcher` generic query matcher function to use for key matchers
 - `overwrite` true or false
 
 #### makePointer
 
 `makePointer(key, value, opts)`
 
-Function `makePointer` can use the following options, passed on from leaf:
+Function `makePointer` can use the following options (passed on from leaf):
 
-- `stopCondition` function to determine if/when to stop "digging" (default: `reachedMaxDepth`)
-- `whenStopped` what to do when stopped (default: return current accumulator via `identiy` function)
+- `keyName(pathKey, opts)` function to transform path key (alias: `keynames` for flat for compatibility with original `flat`)
+- `stopCondition(conditionOpts)` function to determine if/when to stop "digging" (default: `reachedMaxDepth`)
+- `whenStopped(acc, opts)` what to do when stopped (default: return current accumulator via `identiy` function)
 - `maxDepth` max depth to dig when using default `reachedMaxDepth` as `stopCondition` (default: `10`)
+- `selectValueAt(acc, key, selectOpts)` function to select the next key
+- `onValue(value, opts)` callback with value, by default used to set initial value `{}` if `undefined` in order to dig down into object
+- `fetchValue(acc, key, fetchOpts)` function to fetch the value with the selected key
+- `nextDepth(depth, depthOpts, opts)` function to calculate next depth, (default: increments by 1)
+- `validateOn` whether validation of options is turned on (default: `false`)
+- `validator(opts)` factory to create a set of validator functions
+- `logger(opts)` logger to use
+- `shallow` shallow or expand mode (default: `true`)
+- `leafValue` functionality to set the leaf value
+- `isExistingObject(obj, opts)` determine if we are making pointer into existing objct
 
 ### buildPath
 
@@ -716,9 +725,9 @@ The built-in leaf function uses the following default options
   delimiter: '.',
   reachedMaxDepth({ // default stopCondition
     maxDepth,
-    index
+    depth
   }) {
-    return index > maxDepth
+    return depth > maxDepth
   },
   identity(value) {
     return value

@@ -48,6 +48,6 @@ describe('leaf: option - keyQueryMatcher', () => {
     })
 
     expect(result).not.toThrow()
-    expect(result).not.toBe(obj)
+    expect(result()).not.toBe(obj)
   })
 })
