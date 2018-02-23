@@ -36,6 +36,6 @@ describe('Unflatten: buildPath', () => {
       buildPath
     })
 
-    expect(typeof result).toBe('object')
+    expect(typeof result()).toBe('object')
   })
 })

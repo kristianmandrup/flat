@@ -14,4 +14,4 @@ Simply run
 
 or to run specific tests:
 
-`$ jest makeLeaf` to run all tests matching `/makeLeaf/`
+`$ jest make-leaf` to run all tests matching `/make-leaf/`

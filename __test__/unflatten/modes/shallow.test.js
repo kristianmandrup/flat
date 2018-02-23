@@ -12,7 +12,7 @@ describe('.shallow', () => {
       shallow: true
     })
 
-    expect(unflatObj, {
+    expect(unflatObj).toEqual({
       'hello': {
         'world': {
           'foo.fiz': 'bar'
@@ -35,10 +35,10 @@ describe('.shallow', () => {
       shallow: true
     })
 
-    expect(unflattened1.hello.world, {
+    expect(unflattened1.hello.world).toEqual({
       foo: 'bar'
     })
-    expect(unflattened1.hello.world, unflattened2.hello.world)
+    expect(unflattened1.hello.world).toBe(unflattened2.hello.world)
   })
 
   it('Identity', () => {
@@ -51,7 +51,7 @@ describe('.shallow', () => {
     expect(
       unflatten(object, {
         shallow: true
-      }),
+      })).toBe(
       unflatten(object, {
         shallow: true
       })
@@ -66,12 +66,11 @@ describe('.shallow', () => {
     }
 
     expect(
-      object,
       flatten(unflatten(object, {
         shallow: true
       }), {
         maxDepth: 1
       })
-    )
+    ).toEqual(object)
   });
 });
