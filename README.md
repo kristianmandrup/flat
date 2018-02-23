@@ -1,8 +1,6 @@
 # flat2
 
-Flatten a nested Javascript object any way you like. Designed to be highly customisable
-
-Also contains a customisable unflattener.
+Flatten a nested Javascript object any way you like. Designed to be highly customisable Also contains a higly customisable unflattener.
 
 ## Intro
 
@@ -11,6 +9,14 @@ This library is a fully rewritten version of [flat](https://www.npmjs.com/packag
 `flat2` has been designed using ES6 classes to make for a more composable, flexible and more maintainable library.
 
 It should now be much easier to test, debug and extend. It is designed to be way more customisable and flexible than the original `flat`. Please also consider the alternative libs listed at the end of this Readme.
+
+## Raison d'etre
+
+`flat2` has been designed to be so flexible that it doesn't even require using objects at all. You can use any kind of data source provided it has a concept of "nesting" and "keys" to be iterated.
+
+It can be as a super-powerful data-transformation library, which can be used on anything from simple objects, to database tables or services, graphs etc.
+
+I originally designed it with the objective to be able to map a React Native stylesheet from the flat structure, using camelCased names to a more natural deeply nested stucture. I needed to separate the value source (`styles`, a `StyleSheet` instance) from the source with keys being iterated (Object used to create stylesheet) and then have it unflatten into a new empty object, where each value references the `styles` by key lookup. This is now possible!
 
 ## Status
 
