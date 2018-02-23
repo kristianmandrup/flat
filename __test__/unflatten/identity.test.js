@@ -1,6 +1,6 @@
 const {
   unflatten
-} = require('../flat')
+} = require('..')
 
 it('Identity', () => {
   const object = {

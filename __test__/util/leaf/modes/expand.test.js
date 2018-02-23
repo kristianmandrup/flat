@@ -1,6 +1,6 @@
 const {
   leaf
-} = require('../leaf')
+} = require('..')
 
 describe('.expand', () => {
   it('Should expand', () => {})

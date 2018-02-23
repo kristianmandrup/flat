@@ -1,6 +1,6 @@
 const {
   leaf
-} = require('../leaf')
+} = require('..')
 
 describe('option: makePointer', () => {
   it('not a function', () => {})

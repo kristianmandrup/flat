@@ -1,6 +1,6 @@
 const {
   unflatten
-} = require('../flat')
+} = require('..')
 
 const log = console.log
 

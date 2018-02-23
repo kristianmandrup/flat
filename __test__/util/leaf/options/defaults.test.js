@@ -1,17 +1,24 @@
 const {
   leaf
-} = require('../leaf')
+} = require('..')
 
 const {
   log
 } = console
 
 describe('leaf: option - defaults', () => {
-  const obj = {
-    'x': {
-      a: 32
+  const createObj = () => {
+    return {
+      'x': {
+        a: 32
+      }
     }
   }
+
+  let obj
+  beforeEach(() => {
+    obj = createObj()
+  })
 
   path = ['x']
   value = 'hello'

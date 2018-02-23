@@ -1,6 +1,6 @@
 const {
   leaf
-} = require('../leaf')
+} = require('..')
 
 describe('option: startDepth', () => {
   it('not a number', () => {})

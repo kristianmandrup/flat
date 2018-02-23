@@ -1,6 +1,6 @@
 const {
   leaf
-} = require('../leaf')
+} = require('..')
 
 describe('option: overwrite', () => {
   it('non-object keys + overwrite should be overwritten', () => {

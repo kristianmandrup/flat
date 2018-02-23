@@ -1,6 +1,6 @@
 const {
   leaf
-} = require('../leaf')
+} = require('..')
 
 describe('.shallow', () => {
   it('Should leave nested objects untouched', () => {

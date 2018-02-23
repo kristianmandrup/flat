@@ -1,7 +1,7 @@
 // leafValue
 const {
   leaf
-} = require('../leaf')
+} = require('..')
 
 const {
   log
