@@ -644,8 +644,9 @@ Will be retrieved using `leafOpts` property (getter) of `Unflattener`, which you
 - `delimiter` delimiter used by split, usually a string or regular expression (default: `.`)
 - `startDepth` the initial depth, (default: `0`)
 - `keyName(pathKey, opts)` function to transform path key (alias: `keynames` for flat for compatibility with original `flat`)
-- `makePointer(key, value, opts)` custom function to create the pointer (deep path) in the object
-- `accValue(acc, key, valueOpts)` by default used to set initial value `{}` if `undefined` in order to dig down into object
+- `makePointer(key, value, opts)` custom function to create the pointer (deep path) in the object. Pointer returned consists of `{ref, key, value}`
+- `selectAt(acc, key, selectOpts)` function to select the next key and value (if leaf into existing object)
+- `accValue(value, opts)` calculate next accumulator value, if `undefined` set to `{}`undefined` in order to dig down into object
 - `nextDepth(depth, depthOpts, opts)` function to calculate next depth, (default: increments by 1)
 - `validateOn` whether validation of options is turned on (default: `false`)
 - `validator(opts)` factory to create a set of validator functions
@@ -688,8 +689,8 @@ Function `makePointer` can use the following options (passed on from leaf):
 - `stopCondition(conditionOpts)` function to determine if/when to stop "digging" (default: `reachedMaxDepth`)
 - `whenStopped(acc, opts)` what to do when stopped (default: return current accumulator via `identiy` function)
 - `maxDepth` max depth to dig when using default `reachedMaxDepth` as `stopCondition` (default: `10`)
-- `selectValueAt(acc, key, selectOpts)` function to select the next key
-- `onValue(value, opts)` callback with value, by default used to set initial value `{}` if `undefined` in order to dig down into object
+- `selectAt(acc, key, selectOpts)` function to select the next key and value
+- `accValue(value, opts)` calculate next accumulator value, if `undefined` set to `{}` in order to dig further down into object
 - `fetchValue(acc, key, fetchOpts)` function to fetch the value with the selected key
 - `nextDepth(depth, depthOpts, opts)` function to calculate next depth, (default: increments by 1)
 - `validateOn` whether validation of options is turned on (default: `false`)
@@ -697,7 +698,7 @@ Function `makePointer` can use the following options (passed on from leaf):
 - `logger(opts)` logger to use
 - `shallow` shallow or expand mode (default: `true`)
 - `leafValue` functionality to set the leaf value
-- `isExistingObject(obj, opts)` determine if we are making pointer into existing objct
+- `isExistingObject(obj, opts)` used to determine if we are making pointer into existing object
 
 ### buildPath
 
