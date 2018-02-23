@@ -644,7 +644,7 @@ Will be retrieved using `leafOpts` property (getter) of `Unflattener`, which you
 - `delimiter` delimiter used by split, usually a string or regular expression (default: `.`)
 - `startDepth` the initial depth, (default: `0`)
 - `keyName(pathKey, opts)` function to transform path key (alias: `keynames` for flat for compatibility with original `flat`)
-- `makePointer(key, value, opts)` custom function to create the pointer (deep path) in the object. Pointer returned consists of `{ref, key, value}`
+- `makePointer(key, value, opts)` custom function to create the pointer (deep path) in the object. Pointer returned must have `value` and `setValue(value)`
 - `selectAt(acc, key, selectOpts)` function to select the next key and value (if leaf into existing object)
 - `accValue(value, opts)` calculate next accumulator value, if `undefined` set to `{}`undefined` in order to dig down into object
 - `nextDepth(depth, depthOpts, opts)` function to calculate next depth, (default: increments by 1)
@@ -699,6 +699,7 @@ Function `makePointer` can use the following options (passed on from leaf):
 - `shallow` shallow or expand mode (default: `true`)
 - `leafValue` functionality to set the leaf value
 - `isExistingObject(obj, opts)` used to determine if we are making pointer into existing object
+- `createPointer(ref, key, opts)` create the pointer to be returned ie. by default an object with `value` and `setValue(value)`
 
 ### buildPath
 
