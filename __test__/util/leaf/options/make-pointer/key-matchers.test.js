@@ -1,5 +1,5 @@
 const {
-  leaf
+  makePointer
 } = require('../leaf')
 
 const {
@@ -13,12 +13,11 @@ describe('leaf: option - keyMatchers', () => {
     }
   }
   const path = ['x', 'y']
-  const value = 'hello'
 
   it('not an Array', () => {
     const keyMatchers = 'oops'
 
-    const result = () => leaf(obj, path, value, {
+    const result = () => makePointer(obj, path, {
       keyMatchers
     })
 
@@ -28,7 +27,7 @@ describe('leaf: option - keyMatchers', () => {
   it('empty Array', () => {
     const keyMatchers = []
 
-    const result = () => leaf(obj, path, value, {
+    const result = () => makePointer(obj, path, {
       keyMatchers
     })
 
@@ -41,7 +40,7 @@ describe('leaf: option - keyMatchers', () => {
       42
     ]
 
-    const result = () => leaf(obj, path, value, {
+    const result = () => makePointer(obj, path, {
       keyMatchers
     })
 
@@ -54,7 +53,7 @@ describe('leaf: option - keyMatchers', () => {
       'a'
     ]
 
-    const result = () => leaf(obj, path, value, {
+    const result = () => makePointer(obj, path, {
       keyMatchers
     })
 
@@ -66,7 +65,7 @@ describe('leaf: option - keyMatchers', () => {
       () => undefined
     ]
 
-    const result = () => leaf(obj, path, value, {
+    const result = () => makePointer(obj, path, {
       keyMatchers
     })
 
@@ -78,7 +77,7 @@ describe('leaf: option - keyMatchers', () => {
       (key) => `.${key}`
     ]
 
-    const result = () => leaf(obj, path, value, {
+    const result = () => makePointer(obj, path, {
       keyMatchers
     })
 

@@ -2,7 +2,7 @@ const {
   makePointer
 } = require('../..')
 
-describe('option: accValue', () => {
+describe('option: fetchValue', () => {
   const createObj = () => {
     return {
       'x': {
@@ -19,40 +19,37 @@ describe('option: accValue', () => {
   path = ['x', 'b']
 
   it('not a function', () => {
-    const accValue = 'oops'
+    const fetchValue = 'oops'
 
     const result = () => makePointer(obj, path, {
-      accValue
+      fetchValue
     })
 
     expect(result).toThrow()
   })
 
-  it('sets key entry to a string', () => {
-    const accValue = (acc, key) => {
-      acc[key] = 'oops'
-      return acc
+  it('fetches a number', () => {
+    const fetchValue = () => {
+      return 42
     }
 
     const result = () => makePointer(obj, path, {
-      accValue
+      fetchValue
     })
 
     expect(result).toThrow()
   })
 
-  it('function sets key entry to an object', () => {
-    const accValue = (acc, key) => {
-      acc[key] = {
-        ok: true
-      }
-      return acc
+  it('fetches empty object', () => {
+    const fetchValue = () => {
+      return {}
     }
 
     const result = () => makePointer(obj, path, {
-      accValue
+      fetchValue
     })
 
     expect(result).not.toThrow()
+    expect(result()).toEqual({})
   })
 })

@@ -13,16 +13,10 @@ describe('leaf: option - leafValue', () => {
   const value = 'hello'
 
   it('not an object', () => {
-    const leafValue = 'ss'
+    const leafValue = 'oops'
     const result = () => leaf(obj, path, value, {
       leafValue,
       logging: true
-    })
-
-    log('not an object', {
-      obj,
-      path,
-      value
     })
 
     expect(result).not.toThrow()

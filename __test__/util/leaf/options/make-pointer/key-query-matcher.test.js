@@ -1,6 +1,6 @@
 const {
-  leaf
-} = require('../leaf')
+  makePointer
+} = require('..')
 
 const {
   log
@@ -13,7 +13,6 @@ describe('leaf: option - keyQueryMatcher', () => {
     }
   }
   const path = ['x', 'y']
-  const value = 'hello'
 
   const $keyQueryMatcher = (keys, keyQuery) => {
     if (typeof keyQuery !== 'function') return
@@ -23,7 +22,7 @@ describe('leaf: option - keyQueryMatcher', () => {
   it('not a function', () => {
     const keyQueryMatcher = 'oops'
 
-    const result = () => leaf(obj, path, value, {
+    const result = () => makePointer(obj, path, {
       keyQueryMatcher
     })
 
@@ -33,7 +32,7 @@ describe('leaf: option - keyQueryMatcher', () => {
   it('query function that returns undefined', () => {
     const keyQueryMatcher = () => undefined
 
-    const result = () => leaf(obj, path, value, {
+    const result = () => makePointer(obj, path, {
       keyQueryMatcher
     })
 
@@ -43,7 +42,7 @@ describe('leaf: option - keyQueryMatcher', () => {
   it('valid query matcher function', () => {
     const keyQueryMatcher = $keyQueryMatcher
 
-    const result = () => leaf(obj, path, value, {
+    const result = () => makePointer(obj, path, {
       keyQueryMatcher
     })
 

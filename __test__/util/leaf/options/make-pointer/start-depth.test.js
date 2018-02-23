@@ -2,7 +2,7 @@ const {
   makePointer
 } = require('..')
 
-describe('option: maxDepth', () => {
+describe('option: startDepth', () => {
   const createObj = () => {
     return {
       'x': {
@@ -19,64 +19,58 @@ describe('option: maxDepth', () => {
   })
 
   it('not a number', () => {
-    const maxDepth = 'oops'
+    const startDepth = 'oops'
 
     const result = () => makePointer(obj, path, {
-      maxDepth
+      startDepth
     })
 
     expect(result).toThrow()
   })
 
   it('negative number', () => {
-    const maxDepth = -17
+    const startDepth = -17
 
     const result = () => makePointer(obj, path, {
-      maxDepth
+      startDepth
     })
 
-    expect(result).not.toThrow()
+    expect(result).toThrow()
   })
 
   it('0', () => {
-    const maxDepth = 0
+    const startDepth = 0
 
     const result = () => makePointer(obj, path, {
-      maxDepth
+      startDepth
     })
 
     expect(result).not.toThrow()
-    expect(result()).toEqual({})
+    expect(result().depth).toEqual(2)
 
   })
 
   it('1', () => {
-    const maxDepth = 1
+    const startDepth = 1
 
     const result = () => makePointer(obj, path, {
-      maxDepth
+      startDepth
     })
 
     expect(result).not.toThrow()
 
-    expect(result().value).toEqual({
-      x: {}
-    })
+    expect(result().depth).toEqual(3)
   })
 
-  it('3', () => {
-    const maxDepth = 3
+  it('2', () => {
+    const startDepth = 2
 
     const result = () => makePointer(obj, path, {
-      maxDepth
+      startDepth
     })
 
     expect(result).not.toThrow()
 
-    expect(result().value).toEqual({
-      'x': {
-        a: 32
-      }
-    })
+    expect(result().depth).toEqual(4)
   })
 })
