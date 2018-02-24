@@ -785,6 +785,12 @@ Function `makePointer` is used to calculate and create the pointer used to set t
 - `leafValue` functionality to set the leaf value
 - `isExistingObject(obj, opts)` used to determine if we are making pointer into existing object
 - `createPointer(ref, key, opts)` create the pointer to be returned ie. by default an object with `value` and `setValue(value)`
+- `traverse` functionality to traverse individual path items
+
+#### traverse
+
+- `pathItem(acc, path, index)` traverse a single path item
+- `createPathItem(opts)` create a path item traverser
 
 ### leaf default options
 

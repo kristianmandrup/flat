@@ -1,6 +1,6 @@
 const {
   makePointer
-} = require('../leaf')
+} = require('..')
 
 const {
   log

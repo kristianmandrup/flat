@@ -18,7 +18,7 @@ describe('option: overwrite', () => {
   it('string - truthy', () => {
     const overwrite = 'oops'
     const result = () => leaf(obj, path, value, {
-      overwrite,
+      overwrite
     })
 
     expect(result).not.toThrow()
@@ -28,7 +28,7 @@ describe('option: overwrite', () => {
   it('false - no overwrite', () => {
     const overwrite = false
     const result = () => leaf(obj, path, value, {
-      overwrite,
+      overwrite
     })
 
     expect(result).not.toThrow()

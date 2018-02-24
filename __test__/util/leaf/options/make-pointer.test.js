@@ -71,7 +71,7 @@ describe('option: makePointer', () => {
     })
 
     expect(result).not.toThrow()
-    expect(result()).to.Equal({
+    expect(result()).toEqual({
       x: {
         y: 'hello'
       }
