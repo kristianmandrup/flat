@@ -2,7 +2,7 @@ const {
   makePointer
 } = require('..')
 
-describe('option: keyName', () => {
+describe('option: createKey', () => {
   const createObj = () => {
     return {
       'x': {
@@ -20,30 +20,30 @@ describe('option: keyName', () => {
   })
 
   it('not a function', () => {
-    const keyName = 'oops'
+    const createKey = 'oops'
 
     const result = () => makePointer(obj, path, {
-      keyName
+      createKey
     })
 
     expect(result).toThrow()
   })
 
   it('function does NOT transform key to string', () => {
-    const keyName = () => 42
+    const createKey = () => 42
 
     const result = () => makePointer(obj, path, {
-      keyName
+      createKey
     })
 
     expect(result).toThrow()
   })
 
   it('function does transform key to string', () => {
-    const keyName = () => 'myKey'
+    const createKey = () => 'myKey'
 
     const result = () => makePointer(obj, path, {
-      keyName
+      createKey
     })
 
     expect(result).toThrow()
