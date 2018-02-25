@@ -1,18 +1,41 @@
 const {
-  leafContainerFor
+  leafContainerFor,
+  leafContainer
 } = require('..')
 
-function log(msg, obj) {
-  console.log(msg, JSON.stringify(obj, null, 2))
+function logMsg({
+  msg = '',
+  send = console.log
+}) {
+  send(msg)
 }
+
+function logData({
+  msg = '',
+  data,
+  send = console.log
+}) {
+  send(msg, JSON.stringify(data, null, 2))
+}
+
+function log(opts) {
+  opts.data ? logData(opts) : logMsg(opts)
+}
+
+function error(msg, data) {
+  log({
+    msg,
+    data,
+    send: console.erorr
+  })
+  throw new Error(msg)
+}
+
 describe('leafContainerFor', () => {
   const createObj = () => {
     return {
-      header: {
-        color: 'green'
-      },
-      title: 'the sky is blue',
       nested: {
+        title: 'the sky is blue',
         hello: {
           abra: 'black'
         }
@@ -31,14 +54,26 @@ describe('leafContainerFor', () => {
   })
 
   it('add stylesheet for header but not for title or nested', () => {
-    const result = () => leafContainerFor({
-      target: obj,
-      createValue
-    })
+    const result = () => {
+      log({
+        msg: 'do it'
+      })
+      leafContainerFor({
+        target: obj,
+        key: 'nested',
+        createValue,
+        recurse: leafContainer,
+        error,
+        log
+      })
+    }
 
     result()
 
-    log('leafContainerFor', obj)
+    log({
+      msg: 'result: leafContainerFor',
+      data: obj
+    })
 
     expect(obj.header.$stylesheet).toBeTruthy()
     expect(obj.title.$stylesheet).toBeFalse()
